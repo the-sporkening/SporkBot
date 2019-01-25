@@ -1,0 +1,18 @@
+{
+  "name": "sporkbot",
+  "version": "1.0.0",
+  "description": "The Sporkening Discord Bot",
+  "main": "app.js",
+  "scripts": {
+    "install": "npm install",
+    "start": "node app.js"
+  },
+  "author": "Snipey",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "discord.js": "^11.4.2",
+    "discord.js-commando": "^0.10.0",
+    "dotenv": "^6.2.0"
+  }
+}

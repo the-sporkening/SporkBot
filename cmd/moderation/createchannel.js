@@ -22,7 +22,7 @@ module.exports = class CreateChannelCommand extends Command {
             ]
         });
     }
-    run(msg) {
+    run(msg, { name, type}) {
         let server = msg.guild;
         makeChannel(server, name, type).catch(console.error);
         msg.reply("You created the " + type + " channel called " + name + "!");

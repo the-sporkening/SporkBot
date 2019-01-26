@@ -17,6 +17,7 @@ module.exports = class CreateChannelCommand extends Command {
         });
     }
     run(msg, { amount}) {
+        if(amount > 6) return;
         const axios = require('axios');
         axios.defaults.headers.common['Client-ID'] = process.env.TWITCH_ID;
         axios.get('https://api.twitch.tv/helix/streams?type=live&first=' + amount + '&language=en')

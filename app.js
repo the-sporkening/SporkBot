@@ -47,6 +47,6 @@ function genXp(){
 client.on('message', (msg) => {
     if(msg.author.type === "bot") return;
     if(msg.channel.type === "dm") return;
-    
+
 });
 client.login(process.env.DISCORD_TOKEN);

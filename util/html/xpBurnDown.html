@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+</head>
+<body>
+<canvas id="myChart"></canvas>
+
+</body>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+        // The data for our dataset
+        data: {
+            labels: [],
+            datasets: [{
+                label: "Level difficulty",
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [],
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+    for(let i = 0; calcLevel(i) <= 50; i++){
+        //console.log("Level: " + calcLevel(i) + ", XP: " + i);
+        let levelCalc = (calcLevel(i) % 1);
+        if(levelCalc === 0){
+            const label = calcLevel(i).toString();
+            if(!chart.data.labels.includes(label)){
+                let x = 0;
+                chart.data.labels.push(label);
+                //console.log(data);
+                chart.data.datasets[x].data.push(i);
+                x++;
+            }
+            //console.log("Level: " + calcLevel(i) + ", XP: " + i);
+            //console.log(chart.data.labels);
+        }
+    }
+    function calcLevel(xp){
+        const diff = 137;
+        let level = Math.floor(27 + Math.sqrt(482 + 79 * xp)) / diff;
+        return level;
+    }
+    chart.update();
+
+</script>
+</html>

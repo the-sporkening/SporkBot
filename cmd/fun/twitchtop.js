@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 
 const Discord = require('discord.js');
-module.exports = class CreateChannelCommand extends Command {
+module.exports = class TwitchTopCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'tt',
@@ -23,7 +23,7 @@ module.exports = class CreateChannelCommand extends Command {
         axios.get('https://api.twitch.tv/helix/streams?type=live&first=' + amount + '&language=en')
             .then(function (response) {
                 let datas = response.data.data;
-                console.log(datas);
+                //console.log(datas);
                 for (let i = 0; i < datas.length; i++) {
                     let list = datas[i];
                     let thumb = list.thumbnail_url;

@@ -51,7 +51,6 @@ client.on('ready', () => {
     }
     console.log(`Logged in as ${client.user.tag}!`);
 });
-
 client.on('message', (msg) => {
     if (msg.author.type === "bot") return;
     if (msg.channel.type === "dm") return;
@@ -72,9 +71,8 @@ client.on('message', (msg) => {
             });
             newProfile.save().catch(err => console.log(err));
         } else {
-            //Adding xp to an existing profile
-            const curLvl = Math.floor(levels.calc(profile.xp));
-            const nextLvl = levels.calc(profile.xp, true) + 1;
+
+            const nextLvl = levels.level(profile.xp, true) + 1;
             console.log(profile.xp);
             profile.xp = profile.xp + xpToAdd;
             profile.save().catch(err => console.log(err));

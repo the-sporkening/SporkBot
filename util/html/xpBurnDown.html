@@ -27,7 +27,8 @@
         },
 
         // Configuration options go here
-        options: {}
+        options: {
+        }
     });
     for(let i = 0; calcLevel(i) <= 50; i++){
         //console.log("Level: " + calcLevel(i) + ", XP: " + i);
@@ -46,8 +47,8 @@
         }
     }
     function calcLevel(xp){
-        const diff = 137;
-        let level = Math.floor(27 + Math.sqrt(482 + 79 * xp)) / diff;
+        const diff = 80;
+        let level = Math.floor(45 + Math.sqrt(425 + 100 * xp)) / diff;
         return level;
     }
     chart.update();

@@ -1,3 +1,4 @@
+/*
 const { Command } = require('discord.js-commando');
 
 const Discord = require('discord.js');
@@ -60,4 +61,4 @@ const sizeImage = (url, {width, height}) => {
     const base_img_ext = ".jpg";
     return `${base_url}/${user_name}-${width}x${height}${base_img_ext}`;
 
-};
+};*/

@@ -29,6 +29,23 @@ client.registry
     .registerDefaultCommands()
     .registerCommandsIn(path.join(__dirname, 'cmd'));
 
+/*Levels.findOne({
+    userId: newMember.user.id,
+    serverId: newUserChannel.guild.id
+}, (err, voicexp) => {
+    if (err) console.log(err);
+    if (!voicexp) {
+        const newVoiceXp = new VoiceXP({
+            _id: mongoose.Types.ObjectId(),
+            userId: newMember.user.id,
+            serverId: newMember.guild.id,
+            timeJoined: new Date()
+        });
+        newVoiceXp.save().catch(err => console.log(err));
+    } else {
+        msg.reply("VoiceXP exists already!");
+    }
+});*/
 //Checks to see if the bot is ready
 client.on('ready', () => {
     client.user.setPresence({
@@ -40,7 +57,7 @@ client.on('ready', () => {
         }
     }).catch(console.error);
     //Title
-    if (!process.env.DEBUG) {
+    if (!debug) {
         console.log("\n" +
             "  ___               _   ___      _    __   ___ \n" +
             " / __|_ __  ___ _ _| |_| _ ) ___| |_  \\ \\ / / |\n" +
@@ -50,6 +67,59 @@ client.on('ready', () => {
         console.log("=======================================================================");
     }
     console.log(`Logged in as ${client.user.tag}!`);
+});
+client.on('raw', event => {
+   const eventName = event.t;
+   if(eventName === 'MESSAGE_REACTION_ADD'){
+       if(event.d.message_id === '544764878632779789'){
+            let reactionChannel = client.channels.get(event.d.channel_id);
+            if(reactionChannel.messages.has(event.d.message_id)){
+                return;
+            }else{
+                reactionChannel.fetchMessage(event.d.message_id)
+                    .then(msg => {
+                        let msgReaction = msg.reactions.get(event.d.emoji.name + ":" + event.d.emoji.id);
+                        let user = client.users.get(event.d.user_id);
+                        client.emit('messageReactionAdd', msgReaction, user);
+                        //console.log(msgReaction);
+                    })
+                    .catch(err => console.log(err));
+                //console.log(event.d.emoji);
+            }
+       }
+   }
+});
+//{ name: 'sporkapex', id: '544763660212633610', animated: false }
+client.on('messageReactionAdd', (messageReaction, user) => {
+    //Get the reaction from the user
+    let roleName = 'Apex Legends';
+    let role = messageReaction.message.guild.roles.find(role => role.name.toLowerCase() === roleName.toLowerCase());
+    //console.log(role.id);
+    let reaction = messageReaction.emoji.id;
+    //console.log(reaction);
+    if(reaction === '544763660212633610'){
+        if(debug) console.log("Role Reaction " + roleName + " Detected");
+        let member = messageReaction.message.guild.members.find(member => member.id === user.id);
+        if(member){
+            //Add the role
+            member.addRole(role.id).catch(err => console.log(err));
+        }
+    }
+});
+client.on('messageReactionRemove', (messageReaction, user) => {
+    //Role Name
+    let roleName = 'Apex Legends';
+    let role = messageReaction.message.guild.roles.find(role => role.name.toLowerCase() === roleName.toLowerCase());
+    //Get the reaction from the user
+    let reaction = messageReaction.emoji.id;
+    if(reaction === '544763660212633610'){
+        let member = messageReaction.message.guild.members.find(member => member.id === user.id);
+        if(member){
+            //Remove the role
+            member.removeRole(role.id).catch(err => console.log(err));
+        }
+    }
+
 });
 client.on('message', (msg) => {
     if (msg.author.type === "bot") return;
@@ -71,22 +141,20 @@ client.on('message', (msg) => {
             });
             newProfile.save().catch(err => console.log(err));
         } else {
-
-            const nextLvl = levels.level(profile.xp, true) + 1;
-            console.log(profile.xp);
+            const curLvl = levels.getLevel(profile.xp, true);
+            const nextLvl = curLvl + 1;
             profile.xp = profile.xp + xpToAdd;
             profile.save().catch(err => console.log(err));
-            console.log(
-                "Current: " + curLvl + "\n" +
-                "Next: " + nextLvl
-            );
-            if (curLvl === nextLvl) {
+            const newLvl = levels.getLevel(profile.xp, true);
+            //If the new level equals the next level send message that the user leveled up
+            if (newLvl === nextLvl) {
                 let embed = new Discord.RichEmbed()
-                    .setAuthor(msg.author.username)
+                    .setTitle(msg.author.username + " Leveled Up!")
                     .setColor("#a100ff")
-                    .addField("Level Up!", curLvl);
-                msg.channel.send(embed).then(msg => {
-                    msg.delete(10000)
+                    .addField("You have reached Level: ", curLvl + 1, true)
+                    .setThumbnail(msg.author.avatarURL);
+                msg.reply(embed).then(msg => {
+                    msg.delete(10000);
                 });
             }
         }
@@ -95,56 +163,56 @@ client.on('message', (msg) => {
 //Add Xp for being in a voice channel
 client.on('voiceStateUpdate', (oldMember, newMember) => {
 
-        let newUserChannel = newMember.voiceChannel;
-        let oldUserChannel = oldMember.voiceChannel;
+    let newUserChannel = newMember.voiceChannel;
+    let oldUserChannel = oldMember.voiceChannel;
 
-        if (oldUserChannel === undefined && newUserChannel !== undefined) {
-            //Add Xp for being in a voice channel
-            const join = new Date();
-            VoiceXP.findOne({
-                userId: newMember.user.id,
-                serverId: newUserChannel.guild.id
-            }, (err, voicexp) => {
-                if (err) console.log(err);
-                if (!voicexp) {
-                    const newVoiceXp = new VoiceXP({
-                        _id: mongoose.Types.ObjectId(),
-                        userId: newMember.user.id,
-                        serverId: newMember.guild.id,
-                        timeJoined: new Date()
-                    });
-                    newVoiceXp.save().catch(err => console.log(err));
-                } else {
-                    msg.reply("VoiceXP exists already!");
-                }
-            });
+    if (oldUserChannel === undefined && newUserChannel !== undefined) {
+        //Add Xp for being in a voice channel
+        const join = new Date();
+        VoiceXP.findOne({
+            userId: newMember.user.id,
+            serverId: newUserChannel.guild.id
+        }, (err, voicexp) => {
+            if (err) console.log(err);
+            if (!voicexp) {
+                const newVoiceXp = new VoiceXP({
+                    _id: mongoose.Types.ObjectId(),
+                    userId: newMember.user.id,
+                    serverId: newMember.guild.id,
+                    timeJoined: new Date()
+                });
+                newVoiceXp.save().catch(err => console.log(err));
+            } else {
+                msg.reply("VoiceXP exists already!");
+            }
+        });
 
-            // User Joins a voice channel
-            if (debug === "TRUE") console.log(newMember.user.username + " Joined " + newUserChannel.name + " on " + newUserChannel.guild.name + " at: " + join.getTime());
-            //console.log("Joined " + oldUserChannel.name);
+        // User Joins a voice channel
+        if (debug === "TRUE") console.log(newMember.user.username + " Joined " + newUserChannel.name + " on " + newUserChannel.guild.name + " at: " + join.getTime());
+        //console.log("Joined " + oldUserChannel.name);
 
-        } else if (newUserChannel === undefined) {
-            // User leaves a voice channel
-            let xpGained;
-            VoiceXP.findOneAndDelete({
-                userId: oldMember.user.id,
-                serverId: oldUserChannel.guild.id
-            }, (err, voicexp) => {
-                if (err) console.log(err);
-                if (!voicexp) {
-                    msg.reply("VoiceXP does not exist");
-                } else {
-                    let startDate = voicexp.timeJoined;
+    } else if (newUserChannel === undefined) {
+        // User leaves a voice channel
+        //let xpGained;
+        VoiceXP.findOne({
+            userId: oldMember.user.id,
+            serverId: oldUserChannel.guild.id
+        }, (err, voicexp) => {
+            if (err) console.log(err);
+            if (!voicexp) {
+                msg.reply("VoiceXP does not exist");
+            } else {
+                let startDate = voicexp.timeJoined;
 
-                    let endDate = new Date();
-                    let seconds = (endDate.getTime() - startDate) / 1000;
-                    console.log(seconds);
-                }
-            });
+                let endDate = new Date();
+                let seconds = (endDate.getTime() - startDate) / 1000;
+                console.log(seconds);
+            }
+        });
 
-            //Debug
-            if (debug === "TRUE") console.log(oldMember.user.username + " Left " + oldUserChannel.name + " on " + oldUserChannel.guild.name);
-            if (debug === "TRUE") console.log(oldMember.user.username + " Earned " + xpGained + " in " + oldUserChannel.guild.name);
-        }
-    });
-    client.login(process.env.DISCORD_TOKEN).catch();
+        //Debug
+        if (debug === "TRUE") console.log(oldMember.user.username + " Left " + oldUserChannel.name + " on " + oldUserChannel.guild.name);
+        if (debug === "TRUE") console.log(oldMember.user.username + " Earned " + xpGained + " in " + oldUserChannel.guild.name);
+    }
+});
+client.login(process.env.DISCORD_TOKEN).catch();

@@ -1,11 +1,9 @@
 const calcLevel = function(xp, round){
     const diff = 75;
+    let level = (Math.floor(20 + Math.sqrt(425 + 100 * xp)) / diff) / 2;
     if(round){
-        let level = Math.floor(45 + Math.sqrt(625 + 100 * xp)) / diff;
-        let roundl = Math.floor(level);
-        return roundl;
+        return Math.floor(level);
     }else{
-        let level = Math.floor(45 + Math.sqrt(625 + 100 * xp)) / diff;
         return level;
     }
 };
@@ -13,6 +11,5 @@ const calcLevel = function(xp, round){
 const genXp = function () {
     return Math.floor(Math.random() * 15) + 1
 };
-
-exports.level = calcLevel;
+exports.getLevel = calcLevel;
 exports.genXp = genXp;

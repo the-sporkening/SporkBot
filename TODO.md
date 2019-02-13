@@ -1,9 +1,13 @@
-Key:
+`Key
     x => Done
     w => WIP
-    
+    () => version
+`
 Plans 1.0:
     
+    Features:
+    [w] Reaction roles
+        
     Backend:
     [x] MongoDB
     [] Dashboard
@@ -14,12 +18,14 @@ Plans 1.0:
     [w] Coins
     
     Fun:
-    [] Shop system
-        [] Role Upgrades
+    [] Shop system (v2)
     [] Karma System
+    [] Meme System
+        [] React for karma
+        [] Re-Post for user
+        
     
     Moderation:
     [] Add permissions checker for commands
-    [] Auto roles
     [w] Create custom channels
         [] Add limit of channels user can make

@@ -11,46 +11,64 @@
 
 </body>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
+    const experience = 40000;
+    let ctx = document.getElementById('myChart').getContext('2d');
+    let chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
         // The data for our dataset
         data: {
             labels: [],
-            datasets: [{
-                label: "Level difficulty",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [],
-            }]
+            datasets: [
+                {
+                    label: "Current xp",
+                    backgroundColor: '#2471ff',
+                    borderColor: '#2471ff',
+                    data: [],
+                },
+                {
+                    label: "Level difficulty",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [],
+                }
+            ]
         },
 
         // Configuration options go here
         options: {}
     });
-    for(let i = 0; calcLevel(i) <= 50; i++){
+    //XP PRINTOUT
+    for (let i = 0; calcLevel(i) <= 50; i++) {
         //console.log("Level: " + calcLevel(i) + ", XP: " + i);
         let levelCalc = (calcLevel(i) % 1);
-        if(levelCalc === 0){
+        if (levelCalc === 0) {
             const label = calcLevel(i).toString();
-            if(!chart.data.labels.includes(label)){
+            if (!chart.data.labels.includes(label)) {
                 let x = 0;
                 chart.data.labels.push(label);
                 //console.log(data);
-                chart.data.datasets[x].data.push(i);
+                chart.data.datasets[1].data.push(i);
                 x++;
             }
-            //console.log("Level: " + calcLevel(i) + ", XP: " + i);
-            //console.log(chart.data.labels);
         }
     }
-    function calcLevel(xp){
-        const diff = 137;
-        let level = Math.floor(27 + Math.sqrt(482 + 79 * xp)) / diff;
-        return level;
-    }
-    chart.update();
 
+    function calcLevel(xp) {
+        const diff = 40;
+        let level = (Math.floor(20 + Math.sqrt(425 + 100 * xp)) / diff) / 2;
+        return Math.floor(level);
+    }
+
+/*    function test(xp) {
+        const diff = 40;
+        let lvl = (Math.floor(20 + Math.sqrt(425 + 100 * xp)) / diff) / 2;
+        let levelEnd = ((0 - lvl) * xp) / 2;
+        chart.data.datasets[0].data.push(xp);
+        return Math.floor(levelEnd);
+    }*/
+
+    //console.log(test(experience));
+    chart.update();
 </script>
 </html>

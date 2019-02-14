@@ -3,6 +3,7 @@ image: node:latest
 stages:
   - ver
   - init
+  - lint
   - tests
   - deploy
 
@@ -11,12 +12,22 @@ ver:
   script:
     - node --version
     - whoami
+
 init:
   stage: init
   script:
     - npm cache verify
     - rm -rf node-modules
     - npm install
+clean_code:
+  stage: lint
+  script:
+    - npm test
+
+run_tests:
+  stage: tests
+  script:
+    - npm test
 
 deploy_production:
   stage: deploy

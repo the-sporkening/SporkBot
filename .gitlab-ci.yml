@@ -14,7 +14,7 @@ ver:
 init:
   stage: init
   script:
-    - npm cache clean
+    - npm cache verify
     - rm -rf node-modules
     - npm install
 

@@ -4,7 +4,8 @@ const voiceXpSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     userId: Number,
     serverId: Number,
-    timeJoined: String
+    channelId: Number,
+    timeJoined: Number
 });
 
 module.exports = mongoose.model("VoiceXP", voiceXpSchema);

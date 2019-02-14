@@ -8,8 +8,11 @@ const calcLevel = function(xp, round){
     }
 };
 // Generate XP function
-const genXp = function () {
-    return Math.floor(Math.random() * 15) + 1
+const genXp = function (min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
 exports.getLevel = calcLevel;
 exports.genXp = genXp;

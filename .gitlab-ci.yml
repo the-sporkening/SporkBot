@@ -1,16 +1,32 @@
 image: node:latest
 
 stages:
-  - production
+  - ver
+  - init
+  - tests
+  - deploy
 
-production:
-  type: deploy
-  stage: production
-  image: ruby:latest
+ver:
+  stage: ver
   script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=spork-bot --api-key=$HEROKU_API_KEY
+    - node --version
+    - whoami
+init:
+  stage: init
+  script:
+    - npm cache clean
+    - rm -rf node-modules
+    - npm install
+
+deploy_production:
+  stage: deploy
+  script:
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/spork-bot.git
+    - git push heroku master
+    - echo "Deployed to production server"
+  environment:
+  name: production
+  url: https://spork-bot.herokuapp.com/
+  when: manual
   only:
     - master

@@ -11,6 +11,10 @@
     "install": "npm install",
     "start": "node app.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/thesporkening/sporkbot.git"
+  },
   "author": "Snipey",
   "license": "ISC",
   "dependencies": {

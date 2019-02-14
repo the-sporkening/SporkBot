@@ -3,7 +3,6 @@ image: node:latest
 stages:
   - ver
   - init
-  - lint
   - tests
   - deploy
 

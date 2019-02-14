@@ -9,9 +9,11 @@ const client = new CommandoClient({
     owner: '113086797872918528',
     disableEveryone: true
 });
+let cdSeconds = 5;
+const cdSet = new Set();
 //Mongo Stuff
 const mongoose = require("mongoose");
-mongoose.connect('mongodb://localhost/sporkbot', {
+mongoose.connect('mongodb://sporkbot:SporkBot123@ds335275.mlab.com:35275/heroku_3x6dn575', {
     useNewUrlParser: true
 });
 const Profile = require("./models/profile");
@@ -22,32 +24,44 @@ client.registry
     .registerDefaultTypes()
     .registerGroups([
         ['profile', ':candy:Profile Commands:candy:'],
+        ['dev', ':pencil1:Dev Commands:pencil1:'],
         ['moderation', ':pencil2:Moderation Commands:pencil2:'],
         ['fun', ':candy:Fun Commands:candy:']
     ])
     .registerDefaultGroups()
     .registerDefaultCommands()
     .registerCommandsIn(path.join(__dirname, 'cmd'));
+for (let i = 0; levels.getLevel(i) <= 50; i++) {
+    //console.log("Level: " + calcLevel(i) + ", XP: " + i);
+    //Returns multiples of x + 1
+    let levelCalc = (levels.getLevel(i) % 1);
 
-/*Levels.findOne({
-    userId: newMember.user.id,
-    serverId: newUserChannel.guild.id
-}, (err, voicexp) => {
-    if (err) console.log(err);
-    if (!voicexp) {
-        const newVoiceXp = new VoiceXP({
-            _id: mongoose.Types.ObjectId(),
-            userId: newMember.user.id,
-            serverId: newMember.guild.id,
-            timeJoined: new Date()
-        });
-        newVoiceXp.save().catch(err => console.log(err));
-    } else {
-        msg.reply("VoiceXP exists already!");
+    if (levelCalc === 0) {
+        let x = 0;
+        if(levelCalc){
+            Levels.findOne({
+                level: levelCalc,
+                xp: i
+            }, (err, levels) => {
+                if (err) console.log(err);
+                if (!levels) {
+                    const newLevel = new Levels({
+                        _id: mongoose.Types.ObjectId(),
+                        level: levelCalc,
+                        xp: i
+                    });
+                    newLevel.save().catch(err => console.log(err));
+                } else {
+
+                }
+            });
+        }
+        x++;
     }
-});*/
+}
 //Checks to see if the bot is ready
 client.on('ready', () => {
+
     client.user.setPresence({
         status: 'online',
         game: {
@@ -125,11 +139,7 @@ client.on('message', (msg) => {
     if (msg.author.type === "bot") return;
     if (msg.channel.type === "dm") return;
     if (msg.author.id === "437724584192770050") return;
-    if (msg.guild.id !== ("128797258287153152" || "535881918483398676")){
-        msg.reply("Please kick me from this server").then(msg => {
-            msg.delete(10000);
-        });
-    }
+    if (msg.guild.id !== ("128797258287153152"))return;
     const xpToAdd = levels.genXp(5, 12);
     Profile.findOne({
         userId: msg.author.id,
@@ -144,22 +154,36 @@ client.on('message', (msg) => {
                 xp: xpToAdd
             });
             newProfile.save().catch(err => console.log(err));
+            cdSet.add(msg.author.id);
+            setTimeout(() => {
+                cdSet.delete(msg.author.id);
+                console.log("Cooldown expired for " + msg.author.id);
+            }, cdSeconds * 1000);
+            console.log((cdSet));
         } else {
-            const curLvl = levels.getLevel(profile.xp, true);
-            const nextLvl = curLvl + 1;
-            profile.xp = profile.xp + xpToAdd;
-            profile.save().catch(err => console.log(err));
-            const newLvl = levels.getLevel(profile.xp, true);
-            //If the new level equals the next level send message that the user leveled up
-            if (newLvl === nextLvl) {
-                let embed = new Discord.RichEmbed()
-                    .setTitle(msg.author.username + " Leveled Up!")
-                    .setColor("#a100ff")
-                    .addField("You have reached Level: ", curLvl + 1, true)
-                    .setThumbnail(msg.author.avatarURL);
-                msg.reply(embed).then(msg => {
-                    msg.delete(10000);
-                });
+            if(cdSet.has(msg.author.id)){
+
+            }else{
+                const curLvl = levels.getLevel(profile.xp, true);
+                const nextLvl = curLvl + 1;
+                profile.xp = profile.xp + xpToAdd;
+                profile.save().catch(err => console.log(err));
+                const newLvl = levels.getLevel(profile.xp, true);
+                cdSet.add(msg.author.id);
+                setTimeout(() => {
+                    cdSet.delete(msg.author.id);
+                }, cdSeconds * 1000);
+                //If the new level equals the next level send message that the user leveled up
+                if (newLvl === nextLvl) {
+                    let embed = new Discord.RichEmbed()
+                        .setTitle(msg.author.username + " Leveled Up!")
+                        .setColor("#a100ff")
+                        .addField("You have reached Level: ", curLvl + 1, true)
+                        .setThumbnail(msg.author.avatarURL);
+                    msg.reply(embed).then(msg => {
+                        msg.delete(10000);
+                    });
+                }
             }
         }
     });
@@ -212,9 +236,10 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
                 let seconds = Math.round((endDate.getTime() - startDate) / 1000);
                 let minutes = seconds / 60;
                 //console.log("Minutes Connected: " + minutes);
-                let percMin = Math.round(minutes * 0.85);
+                let percMin = Math.round(minutes / 0.85);
                 //console.log("Percent: " + percMin);
                 let xp = levels.genXp((minutes - percMin), minutes);
+                console.log(xp);
                 let xpToAdd = Math.round(xp * 1.13);
                 console.log("Xp adding to account: " + xpToAdd);
                 finalXpAdd = xpToAdd;
@@ -231,14 +256,12 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
             if (err) console.log(err);
             if (!profile) {
                 //If not exist
-                console.log("User not in channel!")
+                console.log("User not in channel!");
             } else {
-                profile.xp = profile.xp + finalXpAdd;
-                profile.save().catch(err => console.log(err));
                 //console.log("Xp Added! Gained " + finalXpAdd + " XP");
                 const curLvl = levels.getLevel(profile.xp, true);
                 const nextLvl = curLvl + 1;
-                profile.xp = profile.xp + xpToAdd;
+                profile.xp = profile.xp + finalXpAdd;
                 profile.save().catch(err => console.log(err));
                 const newLvl = levels.getLevel(profile.xp, true);
                 //If the new level equals the next level send message that the user leveled up

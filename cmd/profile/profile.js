@@ -25,7 +25,7 @@ module.exports = class ProfileCommand extends Command {
     run(msg, profile) {
         let user = msg.mentions.users.first();
         //console.log(user);
-        if(user){
+        if (user) {
             Profile.findOne({
                 userId: user.id,
                 serverId: msg.guild.id
@@ -39,12 +39,13 @@ module.exports = class ProfileCommand extends Command {
                         .setThumbnail(user.avatarURL)
                         .setColor("#103bff")
                         .addField("XP: ", profile.xp, true)
-                        .addField("Level: ", level.getLevel(profile.xp, true), true);
+                        .addField("Level: ", level.getLevel(profile.xp, true), true)
+                        .addField("Coins: (coming soon)", profile.coins, true);
                     msg.reply(embed);
                     if (err) console.log(err);
                 }
             });
-        }else{
+        } else {
             Profile.findOne({
                 userId: msg.author.id,
                 serverId: msg.guild.id
@@ -53,13 +54,13 @@ module.exports = class ProfileCommand extends Command {
                 if (!profile) {
                     msg.reply("Profile does not exist..... yet");
                 } else {
-
                     let embed = new Discord.RichEmbed()
                         .setTitle(msg.author.username + "'s Profile")
                         .setThumbnail(msg.author.avatarURL)
                         .setColor("#103bff")
                         .addField("XP: ", profile.xp, true)
-                        .addField("Level: ", level.getLevel(profile.xp, true), true);
+                        .addField("Level: ", level.getLevel(profile.xp, true), true)
+                        .addField("Coins: ", profile.coins, true);
                     msg.reply(embed);
                 }
             });

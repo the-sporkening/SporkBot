@@ -9,6 +9,7 @@
   },
   "scripts": {
     "install": "npm install",
+    "test": "mocha test/",
     "start": "node app.js"
   },
   "repository": {
@@ -22,6 +23,15 @@
     "discord.js": "^11.4.2",
     "discord.js-commando": "^0.10.0",
     "dotenv": "^6.2.0",
+    "eslint-config-airbnb": "^17.1.0",
     "mongoose": "^5.4.9"
+  },
+  "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "mocha": "^5.2.0"
   }
 }

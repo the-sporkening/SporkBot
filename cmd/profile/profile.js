@@ -11,20 +11,30 @@ module.exports = class ProfileCommand extends Command {
             memberName: 'profile',
             description: 'Displays the users profile',
             examples: ['profile, p'],
-            aliases: ['profile, p'],
+            aliases: ['profile', 'p'],
             args: [
                 {
                     key: 'profile',
                     prompt: 'Whose profile?',
-                    type: 'string'
+                    type: 'string',
+                    default: ''
                 }
-            ]
+            ],
+            throttling: {
+                usages: 2,
+                duration: 10
+            },
         });
     }
 
-    run(msg, profile) {
-        let user = msg.mentions.users.first();
-        //console.log(user);
+    run(msg, { profile }) {
+        let user;
+        if(!profile){
+            user = msg.author;
+        }else{
+            user = msg.mentions.users.first();
+        }
+
         if (user) {
             Profile.findOne({
                 userId: user.id,

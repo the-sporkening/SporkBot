@@ -15,14 +15,14 @@ const client = new CommandoClient({
 });
 const cdSeconds = 5;
 const cdSet = new Set();
-
+const mongoDB = process.env.MONGODB_URI.toString();
 //
 // Mongo Stuff
 
 
-mongoose.connect('mongodb://sporkbot:SporkBot123@ds335275.mlab.com:35275/heroku_3x6dn575', {
+mongoose.connect(mongoDB, {
   useNewUrlParser: true,
-});
+}).catch(err => console.log(err));
 const Profile = require('./models/profile');
 const VoiceXP = require('./models/voicexp');
 const levels = require('./util/levels');
@@ -189,7 +189,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
           _id: mongoose.Types.ObjectId(),
           userId: newMember.user.id,
           serverId: newMember.guild.id,
-          timeJoined: new Date()
+          timeJoined: join
         });
         newVoiceXp.save().catch(err => console.log(err));
       } else {
@@ -208,7 +208,6 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     }, (err, voicexp) => {
       if (err) console.log(err);
       if (voicexp) {
-      {
         const startDate = voicexp.timeJoined;
         const endDate = new Date();
         const seconds = Math.round((endDate.getTime() - startDate) / 1000);
@@ -252,10 +251,6 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         }
       }
     });
-
-    //Debug
-    //if (debug === "TRUE") console.log(oldMember.user.username + " Left " + oldUserChannel.name + " on " + oldUserChannel.guild.name);
-    //if (debug === "TRUE") console.log(oldMember.user.username + " Earned " + xpGained + " in " + oldUserChannel.guild.name);
   }
 });
 client.login(process.env.DISCORD_TOKEN).catch();

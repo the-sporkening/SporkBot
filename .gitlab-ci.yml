@@ -20,6 +20,7 @@ init:
 
 deploy_production:
   stage: deploy
+  image: ruby:latest
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev

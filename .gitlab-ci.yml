@@ -25,7 +25,7 @@ deploy_production:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=node-heroku-dpl --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=spork-bot --api-key=$HEROKU_API_KEY
     - echo "Deployed to production server"
   environment:
     name: production

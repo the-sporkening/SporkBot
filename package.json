@@ -1,37 +1,27 @@
 {
   "name": "sporkbot",
   "version": "1.0.0",
-  "description": "The Sporkening Discord Bot",
+  "description": "SporkBOT",
   "main": "app.js",
-  "engines": {
-    "node": "10.14.1",
-    "npm": "6.4.1"
-  },
   "scripts": {
-    "install": "npm install",
-    "test": "mocha test/",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/thesporkening/sporkbot.git"
+    "url": "git+https://github.com/Snipey/SporkBot.git"
   },
   "author": "Snipey",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Snipey/SporkBot/issues"
+  },
+  "homepage": "https://github.com/Snipey/SporkBot#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "discord.js": "^11.4.2",
     "discord.js-commando": "^0.10.0",
     "dotenv": "^6.2.0",
-    "eslint-config-airbnb": "^17.1.0",
     "mongoose": "^5.4.9"
-  },
-  "devDependencies": {
-    "eslint": "^5.13.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
-    "mocha": "^5.2.0"
   }
 }

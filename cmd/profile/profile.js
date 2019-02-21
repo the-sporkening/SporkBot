@@ -1,3 +1,5 @@
+'use strict';
+
 const Discord = require("discord.js");
 const {Command} = require('discord.js-commando');
 const Profile = require("../../models/profile.js");

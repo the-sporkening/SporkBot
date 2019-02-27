@@ -18,11 +18,13 @@ init:
     - npm cache verify
     - rm -rf node-modules
     - npm install
-run_Lint:
+run_lint:
   stage: run_lint
   script:
-    - npm install
-    - eslint .
+    # install eslint
+    - npm i eslint
+    # Run eslint
+    - node_modules/eslint/bin/eslint.js .
 deploy_production:
   stage: deploy
   image: ruby:latest

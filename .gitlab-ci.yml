@@ -18,11 +18,11 @@ init:
     - npm cache verify
     - rm -rf node-modules
     - npm install
-lint:
+Run_Lint:
   stage: lint
   script:
+    - npm install
     - node lint
-
 deploy_production:
   stage: deploy
   image: ruby:latest

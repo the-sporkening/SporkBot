@@ -3,7 +3,7 @@ image: node:latest
 stages:
   - ver
   - init
-  - lint
+  - run_lint
   - tests
   - deploy
 
@@ -18,11 +18,11 @@ init:
     - npm cache verify
     - rm -rf node-modules
     - npm install
-Run_Lint:
-  stage: lint
+run_Lint:
+  stage: run_lint
   script:
     - npm install
-    - node lint
+    - eslint .
 deploy_production:
   stage: deploy
   image: ruby:latest

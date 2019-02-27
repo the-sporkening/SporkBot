@@ -3,6 +3,7 @@ image: node:latest
 stages:
   - ver
   - init
+  - lint
   - tests
   - deploy
 
@@ -17,6 +18,10 @@ init:
     - npm cache verify
     - rm -rf node-modules
     - npm install
+lint:
+  stage: lint
+  script:
+    - node lint
 
 deploy_production:
   stage: deploy

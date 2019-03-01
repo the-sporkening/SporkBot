@@ -31,29 +31,36 @@ module.exports = class MessageManager {
 			setTimeout(() => {
 				cdSet.delete(msg.author.id);
 			}, cdSeconds * 1000);
-			User.findOne({
-				where: {
-					user_id: msg.author.id,
-					server_id: msg.guild.id,
-				},
-			}).then(user => {
-				return user.increment('xp', { by: xpToAdd });
-			}).then(user => {
-				const xp = user.dataValues.xp;
-				const curLvl = levels.getLevel(xp - xpToAdd, true);
-				const nextLvl = curLvl + 1;
-				const newLvl = levels.getLevel(xp, true);
-				if (newLvl === nextLvl) {
-					const embed = new Discord.RichEmbed()
-						.setTitle(msg.author.username + ' Leveled Up!')
-						.setColor('#a100ff')
-						.addField('You have reached Level: ', curLvl + 1, true)
-						.setThumbnail(msg.author.avatarURL);
-					msg.reply(embed).then(() => {
-						msg.delete(10000);
-					});
-				}
-			}).catch(err => console.log(err));
+			const exists = User.findOne({ where: { user_id: msg.author.id, server_id: msg.guild.id } })
+				.catch(err => console.log(err));
+			if(!exists) {
+				User.create({ user_id: msg.author.id, server_id: msg.guild.id, xp: xpToAdd });
+			}
+			else{
+				User.findOne({
+					where: {
+						user_id: msg.author.id,
+						server_id: msg.guild.id,
+					},
+				}).then(user => {
+					return user.increment('xp', { by: xpToAdd });
+				}).then(user => {
+					const xp = user.dataValues.xp;
+					const curLvl = levels.getLevel(xp - xpToAdd, true);
+					const nextLvl = curLvl + 1;
+					const newLvl = levels.getLevel(xp, true);
+					if (newLvl === nextLvl) {
+						const embed = new Discord.RichEmbed()
+							.setTitle(msg.author.username + ' Leveled Up!')
+							.setColor('#a100ff')
+							.addField('You have reached Level: ', curLvl + 1, true)
+							.setThumbnail(msg.author.avatarURL);
+						msg.reply(embed).then(() => {
+							msg.delete(10000);
+						});
+					}
+				}).catch(err => console.log(err));
+			}
 		}
 	}
 };

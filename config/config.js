@@ -16,10 +16,7 @@ module.exports = {
 	},
 	'production': {
 		'use_env_variable': process.env.DATABASE_URL,
-<<<<<<< HEAD
 		'dialect': 'postgres',
 		'protocol': 'postgres',
-=======
->>>>>>> master
 	},
 };

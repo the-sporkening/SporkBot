@@ -31,7 +31,6 @@ module.exports = class MessageManager {
 			// Add Xp for being in a voice channel
 			const join = new Date().getTime();
 			joined.add(newMember.user.id, join);
-			console.log(joined);
 			// TODO Create user joined in database
 		}
 		else if (newUserChannel === undefined) {

@@ -1,10 +1,5 @@
 'use strict';
 
-const Profile = require('../models/profile');
-const levels = require('../util/levels');
-const mongoose = require('mongoose');
-const Discord = require('discord.js');
-
 const { CommandoClient } = require('discord.js-commando');
 module.exports = class MessageManager {
 
@@ -12,7 +7,7 @@ module.exports = class MessageManager {
 		this.client = client;
 
 		if (!this.client || !(this.client instanceof CommandoClient)) {
-			throw new Error("Discord Client is required");
+			throw new Error('Discord Client is required');
 		}
 	}
 
@@ -44,7 +39,7 @@ module.exports = class MessageManager {
 		// Get the reaction from the user
 		const reaction = messageReaction.emoji.id;
 		if (reaction === '544763660212633610') {
-			let member = messageReaction.message.guild.members.find(member => member.id === user.id);
+			const member = messageReaction.message.guild.members.find(member => member.id === user.id);
 			if (member) {
 				//
 				// Remove the role

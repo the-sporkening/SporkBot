@@ -27,24 +27,3 @@ module.exports = (sequelize, DataTypes) => {
 	};
 	return User;
 };
-/*
-
-user_id: {
-	type: DataTypes.STRING,
-		primaryKey: true,
-},
-server_id: {
-	type: DataTypes.STRING,
-		defaultValue: 0,
-		allowNull: false,
-},
-xp: {
-	type: DataTypes.INTEGER,
-		defaultValue: 0,
-		allowNull: false,
-},
-coins: {
-	type: DataTypes.INTEGER,
-		defaultValue: 0,
-		allowNull: false,
-},*/

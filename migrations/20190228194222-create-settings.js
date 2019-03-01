@@ -27,7 +27,7 @@ module.exports = {
 			},
 		});
 	},
-	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('Settings');
+	down: (queryInterface) => {
+		return queryInterface.dropTable('settings');
 	},
 };

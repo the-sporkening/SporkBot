@@ -4,7 +4,7 @@ const levels = require('../util/levels');
 const Discord = require('discord.js');
 const { CommandoClient } = require('discord.js-commando');
 const User = require('../models').User;
-const cdSeconds = 12;
+const cdSeconds = 30;
 const cdSet = new Set();
 module.exports = class MessageManager {
 
@@ -22,9 +22,6 @@ module.exports = class MessageManager {
 
 		// Create Helper Variables
 		const text = msg.cleanContent;
-		/*		const channel = msg.channel;
-		const server = msg.guild ? msg.guild.name : 'DM';*/
-		const author = msg.author;
 		const attachments = msg.attachments.size > 0;
 		if (text.length < 1 && !attachments) return false;
 		const xpToAdd = levels.genXp(5, 12);
@@ -34,11 +31,10 @@ module.exports = class MessageManager {
 			cdSet.add(msg.author.id);
 			setTimeout(() => {
 				cdSet.delete(msg.author.id);
-				console.log('Cooldown expired for ' + msg.author.id);
 			}, cdSeconds * 1000);
 			User.findOne({
 				where: {
-					user_id: author.id,
+					user_id: msg.author.id,
 					server_id: msg.guild.id,
 				},
 			}).then(user => {
@@ -58,8 +54,7 @@ module.exports = class MessageManager {
 						msg.delete(10000);
 					});
 				}
-
-			});
+			}).catch(err => console.log(err));
 		}
 	}
 };

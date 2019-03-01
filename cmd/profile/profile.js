@@ -1,8 +1,9 @@
 'use strict';
 
-// const Discord = require('discord.js');
+const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
-// const level = require('../../util/levels.js');
+const User = require('../../models').User;
+const level = require('../../util/levels.js');
 
 module.exports = class ProfileCommand extends Command {
 	constructor(client) {
@@ -17,7 +18,7 @@ module.exports = class ProfileCommand extends Command {
 				{
 					key: 'profile',
 					prompt: 'Whose profile?',
-					type: 'string',
+					type: 'user',
 					default: '',
 				},
 			],
@@ -29,26 +30,44 @@ module.exports = class ProfileCommand extends Command {
 	}
 
 	run(msg, { profile }) {
-
-		if(!profile) {
-			// let user = msg.author;
+		if(profile) {
+			User.findOne({
+				where: {
+					user_id: profile.id,
+					server_id: msg.guild.id,
+				},
+			}).then(result => {
+				const query = result.dataValues;
+				const embed = new Discord.RichEmbed()
+					.setTitle(profile.username + '\'s Profile')
+					.setThumbnail(profile.avatarURL)
+					.setColor('#103bff')
+					.addField('XP: ', query.xp, true)
+					.addField('Level: ', level.getLevel(query.xp, true), true);
+				msg.reply(embed).catch(err => console.log(err));
+			});
 		}
-		else{
-			// let user = msg.mentions.users.first();
-		}
+		else {
+			User.findOne({
+				where: {
+					user_id: msg.author.id,
+					server_id: msg.guild.id,
+				},
+			}).then(result => {
+				const query = result.dataValues;
+				const embed = new Discord.RichEmbed()
+					.setTitle(msg.author.username + '\'s Profile')
+					.setThumbnail(msg.author.avatarURL)
+					.setColor('#103bff')
+					.addField('XP: ', query.xp, true)
+					.addField('Level: ', level.getLevel(query.xp, true), true);
+				msg.reply(embed).catch(err => console.log(err));
+			});
 
+			console.log('Not mentioned');
+		}
 		// TODO Find users profile
 		// TODO Find @user profile
 		// TODO Display profile information
-		/*
-			const embed = new Discord.RichEmbed()
-						.setTitle(user.username + '\'s Profile')
-						.setThumbnail(user.avatarURL)
-						.setColor('#103bff')
-						.addField('XP: ', profile.xp, true)
-						.addField('Level: ', level.getLevel(profile.xp, true), true)
-						.addField('Coins: (coming soon)', profile.coins, true);
-					msg.reply(embed);
-			*/
 	}
 };

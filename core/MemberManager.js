@@ -16,7 +16,7 @@ module.exports = class MemberManager {
 	async joinServer(member) {
 		User.findOrCreate({ where: { user_id: member.id, server_id: member.guild.id } })
 			.catch(err => console.log(err));
-		member.message(this.welcomeMessage(member));
+		// member.message(this.welcomeMessage(member));
 	}
 	async welcomeMessage(member) {
 		return new Discord.RichEmbed()

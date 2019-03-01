@@ -38,14 +38,33 @@ client.registry
 	.registerCommandsIn(path.join(__dirname, 'cmd'));
 // Checks to see if the bot is ready
 client.on('ready', () => {
+	const text = ['!help', 'https://getsporked.lol'];
+	setInterval(() => {
+		const shuffle = Math.floor(Math.random() * text.length);
+		let selection = text[shuffle];
+		if (selection == null) selection = text[shuffle];
+		client.user.setPresence({
+			status: 'online',
+			game: {
+				name: `${selection}`,
+				type: 'WATCHING',
+			},
+		});
+	}, 5 * 1000);
 	client.user.setPresence({
+		game: {
+			name: text[0],
+			type: 'WATCHING',
+		},
+	}).catch(console.error);
+	/*	client.user.setPresence({
 		status: 'online',
 		game: {
-			name: 'your every word',
+			name: '!help',
 			url: 'https://www.twitch.tv/snipey92',
 			type: 'LISTENING',
 		},
-	}).catch(console.error);
+	}).catch(console.error);*/
 	//
 	// Title
 	if (!debug) {

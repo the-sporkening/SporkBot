@@ -50,21 +50,13 @@ client.on('ready', () => {
 				type: 'WATCHING',
 			},
 		});
-	}, 5 * 1000);
+	}, 5 * 60 * 1000);
 	client.user.setPresence({
 		game: {
 			name: text[0],
 			type: 'WATCHING',
 		},
 	}).catch(console.error);
-	/*	client.user.setPresence({
-		status: 'online',
-		game: {
-			name: '!help',
-			url: 'https://www.twitch.tv/snipey92',
-			type: 'LISTENING',
-		},
-	}).catch(console.error);*/
 	//
 	// Title
 	if (!debug) {

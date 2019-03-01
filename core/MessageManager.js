@@ -27,7 +27,6 @@ module.exports = class MessageManager {
 		const xpToAdd = levels.genXp(5, 12);
 
 		if(!cdSet.has(msg.author.id)) {
-
 			cdSet.add(msg.author.id);
 			setTimeout(() => {
 				cdSet.delete(msg.author.id);

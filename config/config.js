@@ -20,5 +20,6 @@ module.exports = {
 		'database': process.env.DB_TABLE,
 		'host': process.env.DB_HOST,
 		'protocol': 'postgres',
+		'dialect': 'postgres',
 	},
 };

@@ -40,14 +40,14 @@
     });
     //XP PRINTOUT
     for (let i = 0; calcLevel(i) <= 50; i++) {
-        //console.log("Level: " + calcLevel(i) + ", XP: " + i);
+        //rollbar.log("Level: " + calcLevel(i) + ", XP: " + i);
         let levelCalc = (calcLevel(i) % 1);
         if (levelCalc === 0) {
             const label = calcLevel(i).toString();
             if (!chart.data.labels.includes(label)) {
                 let x = 0;
                 chart.data.labels.push(label);
-                //console.log(data);
+                //rollbar.log(data);
                 chart.data.datasets[1].data.push(i);
                 x++;
             }
@@ -68,7 +68,7 @@
         return Math.floor(levelEnd);
     }*/
 
-    //console.log(test(experience));
+    //rollbar.log(test(experience));
     chart.update();
 </script>
 </html>

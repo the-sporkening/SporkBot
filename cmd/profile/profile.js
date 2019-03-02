@@ -4,6 +4,12 @@ const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
 const User = require('../../models').User;
 const level = require('../../util/levels.js');
+const Rollbar = require('rollbar');
+const rollbar = new Rollbar({
+	accessToken: '48240675527e4d47933f2f5e3124f786',
+	captureUncaught: true,
+	captureUnhandledRejections: true,
+});
 
 module.exports = class ProfileCommand extends Command {
 	constructor(client) {
@@ -24,27 +30,30 @@ module.exports = class ProfileCommand extends Command {
 			],
 			throttling: {
 				usages: 2,
-				duration: 10,
+				duration: 30,
 			},
 		});
 	}
 
 	run(msg, { profile }) {
+		const user = msg.mentions.users.first();
 		if(profile) {
 			User.findOne({
 				where: {
-					user_id: profile.id,
+					user_id: user.id,
 					server_id: msg.guild.id,
 				},
 			}).then(result => {
 				const query = result.dataValues;
 				const embed = new Discord.RichEmbed()
-					.setTitle(profile.username + '\'s Profile')
-					.setThumbnail(profile.avatarURL)
+					.setTitle(user.username + '\'s Profile')
+					.setThumbnail(user.avatarURL)
 					.setColor('#103bff')
 					.addField('XP: ', query.xp, true)
 					.addField('Level: ', level.getLevel(query.xp, true), true);
-				msg.reply(embed).catch(err => console.log(err));
+				msg.reply(embed)
+					.then(() => { msg.delete(10000); })
+					.catch(err => rollbar.log(err));
 			});
 		}
 		else {
@@ -61,13 +70,8 @@ module.exports = class ProfileCommand extends Command {
 					.setColor('#103bff')
 					.addField('XP: ', query.xp, true)
 					.addField('Level: ', level.getLevel(query.xp, true), true);
-				msg.reply(embed).catch(err => console.log(err));
+				msg.reply(embed).catch(err => rollbar.log(err));
 			});
-
-			console.log('Not mentioned');
 		}
-		// TODO Find users profile
-		// TODO Find @user profile
-		// TODO Display profile information
 	}
 };

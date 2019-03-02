@@ -27,6 +27,7 @@
     "node-fetch": "^2.3.0",
     "pg": "^7.8.1",
     "pg-hstore": "^2.3.2",
+    "rollbar": "^2.5.2",
     "sequelize": "^4.42.0",
     "sequelize-cli": "^5.4.0"
   },

@@ -11,6 +11,12 @@ const client = new CommandoClient({
 	owner: '113086797872918528',
 	disableEveryone: true,
 });
+const Rollbar = require('rollbar');
+const rollbar = new Rollbar({
+	accessToken: '48240675527e4d47933f2f5e3124f786',
+	captureUncaught: true,
+	captureUnhandledRejections: true,
+});
 /*
 * Event Managers
 */
@@ -89,7 +95,7 @@ client.on('raw', (event) => {
 						const user = client.users.get(event.d.user_id);
 						client.emit('messageReactionAdd', msgReaction, user);
 					})
-					.catch(err => console.log(err));
+					.catch(err => rollbar.log(err));
 			}
 		}
 	}

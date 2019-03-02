@@ -24,7 +24,7 @@ module.exports = class MessageManager {
 			if (member) {
 				//
 				// Add the role
-				member.addRole(role.id).catch(err => console.log(err));
+				member.addRole(role.id).catch(err => rollbar.log(err));
 			}
 		}
 
@@ -43,7 +43,7 @@ module.exports = class MessageManager {
 			if (member) {
 				//
 				// Remove the role
-				member.removeRole(role.id).catch(err => console.log(err));
+				member.removeRole(role.id).catch(err => rollbar.log(err));
 			}
 		}
 	}

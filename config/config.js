@@ -1,11 +1,11 @@
 require('dotenv').config();
 module.exports = {
 	'development': {
-		'username': 'root',
+		'username': 'postgres',
 		'password': 'pass',
 		'database': 'sporkbot',
 		'host': 'localhost',
-		'dialect': 'mysql',
+		'dialect': 'postgres',
 	},
 	'test': {
 		'username': 'root',

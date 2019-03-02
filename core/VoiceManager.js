@@ -10,7 +10,12 @@ Reflect.defineProperty(joined, 'add', {
 		return joined.set(id, date);
 	},
 });
-
+const Rollbar = require('rollbar');
+const rollbar = new Rollbar({
+	accessToken: '48240675527e4d47933f2f5e3124f786',
+	captureUncaught: true,
+	captureUnhandledRejections: true,
+});
 
 module.exports = class MessageManager {
 
@@ -31,7 +36,6 @@ module.exports = class MessageManager {
 			// Add Xp for being in a voice channel
 			const join = new Date().getTime();
 			joined.add(newMember.user.id, join);
-			// TODO Create user joined in database
 		}
 		else if (newUserChannel === undefined) {
 			// User leaves a voice channel
@@ -43,15 +47,22 @@ module.exports = class MessageManager {
 			const percMin = Math.round(minutes / 0.85);
 			const xp = levels.genXp((minutes - percMin), minutes);
 			const xpToAdd = Math.round(xp * 1.13);
-			User.findOne({
+			User.findOrCreate({
 				where: {
 					user_id: oldMember.user.id,
 					server_id: oldMember.guild.id,
 				},
-			}).then(user => {
-				return user.increment('xp', { by: xpToAdd });
-			}).catch(err => console.log(err));
-			joined.delete(oldMember.user.id);
+				defaults: {
+					xp: xpToAdd,
+				},
+			}).spread((user, created) => {
+				if(!created) {
+					return user.increment('xp', { by: xpToAdd })
+						.then(() => {
+							joined.delete(oldMember.user.id);
+						});
+				}
+			}).catch(err => rollbar.log(err));
 		}
 	}
 };

@@ -1,6 +1,13 @@
 'use strict';
 
 const { CommandoClient } = require('discord.js-commando');
+const Rollbar = require('rollbar');
+const rollbar = new Rollbar({
+	accessToken: '48240675527e4d47933f2f5e3124f786',
+	captureUncaught: true,
+	captureUnhandledRejections: true,
+});
+
 module.exports = class MessageManager {
 
 	constructor(client) {

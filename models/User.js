@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
 		xp: DataTypes.INTEGER,
 		coins: DataTypes.INTEGER,
 	}, {});
-	User.associate = function(models) {
+	/*	User.associate = function(models) {
 		// associations can be defined here
-	};
+	};*/
 	return User;
 };

@@ -1,5 +1,5 @@
 const calcLevel = function(xp, round) {
-	const diff = 75;
+	const diff = 50;
 	const level = (Math.floor(20 + Math.sqrt(425 + 100 * xp)) / diff) / 2;
 	if(round) {
 		return Math.floor(level);

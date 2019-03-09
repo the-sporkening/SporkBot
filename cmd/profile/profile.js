@@ -6,7 +6,7 @@ const User = require('../../models').User;
 const level = require('../../util/levels.js');
 const Rollbar = require('rollbar');
 const rollbar = new Rollbar({
-	accessToken: '48240675527e4d47933f2f5e3124f786',
+	accessToken: process.env.ROLLBAR_KEY,
 	captureUncaught: true,
 	captureUnhandledRejections: true,
 });
@@ -44,16 +44,21 @@ module.exports = class ProfileCommand extends Command {
 					server_id: msg.guild.id,
 				},
 			}).then(result => {
-				const query = result.dataValues;
-				const embed = new Discord.RichEmbed()
-					.setTitle(user.username + '\'s Profile')
-					.setThumbnail(user.avatarURL)
-					.setColor('#103bff')
-					.addField('XP: ', query.xp, true)
-					.addField('Level: ', level.getLevel(query.xp, true), true);
-				msg.reply(embed)
-					.then(() => { msg.delete(10000); })
-					.catch(err => rollbar.log(err));
+				if(result) {
+					const query = result.dataValues;
+					const embed = new Discord.RichEmbed()
+						.setTitle(user.username + '\'s Profile')
+						.setThumbnail(user.avatarURL)
+						.setColor('#103bff')
+						.addField('XP: ', query.xp, true)
+						.addField('Level: ', level.getLevel(query.xp, true), true);
+					msg.reply(embed)
+						.then(() => msg.delete(111))
+						.catch(err => console.log(err));
+				}
+				else{
+					msg.reply('');
+				}
 			});
 		}
 		else {

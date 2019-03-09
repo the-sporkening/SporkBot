@@ -1,0 +1,26 @@
+{
+  "settings": [
+    {
+      "channels": {
+        "memeChannel" : "",
+        "clipsChannel": "",
+        "verifyChannel": {
+          "channelId": "",
+          "messageId": ""
+        }
+      },
+      "roles": {
+        "apex_legends": {
+          "emojiId": "81273198731892312",
+          "emojiName": "apex",
+          "roleId": ""
+        },
+        "deep_rock": {
+          "emojiId": "81273198731892312",
+          "emojiName": "drg",
+          "roleId": ""
+        }
+      }
+    }
+  ]
+}

@@ -10,14 +10,8 @@ Reflect.defineProperty(joined, 'add', {
 		return joined.set(id, date);
 	},
 });
-const Rollbar = require('rollbar');
-const rollbar = new Rollbar({
-	accessToken: '48240675527e4d47933f2f5e3124f786',
-	captureUncaught: true,
-	captureUnhandledRejections: true,
-});
 
-module.exports = class MessageManager {
+module.exports = class VoiceManager {
 
 	constructor(client) {
 		this.client = client;
@@ -62,7 +56,7 @@ module.exports = class MessageManager {
 							joined.delete(oldMember.user.id);
 						});
 				}
-			}).catch(err => rollbar.log(err));
+			}).catch(err => console.log(err));
 		}
 	}
 };

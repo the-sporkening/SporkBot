@@ -35,7 +35,7 @@ module.exports = class MessageManager {
 		if (text.length < 1 && !attachments) return false;
 		const xpToAdd = levels.genXp(5, 12);
 		const coinsToAdd = 0;
-		const memeChannel = '551638919377190922';
+		const memeChannel = '545038533950308362';
 		if(msg.channel.id === memeChannel) {
 			if(attachments) {
 				memeHandle.postMeme(msg).catch(err => console.log(err));

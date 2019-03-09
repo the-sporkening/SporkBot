@@ -5,7 +5,6 @@ const Discord = require('discord.js');
 const { CommandoClient } = require('discord.js-commando');
 const User = require('../models').User;
 const MemeManager = require('../handlers/MemeManager');
-const memeHandle = new MemeManager();
 
 const cdSeconds = 30;
 const cdSet = new Set();
@@ -31,9 +30,10 @@ module.exports = class MessageManager {
 		const xpToAdd = levels.genXp(5, 12);
 		const coinsToAdd = 0;
 		const memeChannel = '545038533950308362';
+		const memes = new MemeManager();
 		if(msg.channel.id === memeChannel) {
 			if(attachments) {
-				memeHandle.postMeme(msg).catch(err => Raven.captureException(err));
+				memes.postMeme(msg).catch(err => Raven.captureException(err));
 			}
 			else if(msg.attachments.size > 1) {
 				msg.delete().then(msg => msg.reply('One attachment at a time bro!!').then(msg => msg.delete(10000)));

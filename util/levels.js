@@ -1,5 +1,5 @@
 const calcLevel = function(xp, round) {
-	let level = ((Math.floor(0.7 * Math.log((0.001 * xp / Math.E) + 1) / Math.log(1.06))) / 0.9);
+	const level = ((Math.floor(0.7 * Math.log((0.001 * xp / Math.E) + 1) / Math.log(1.06))) / 0.9);
 	if(round) {
 		return Math.floor(level);
 	}

@@ -3,12 +3,12 @@
 const { CommandoClient } = require('discord.js-commando');
 const Rollbar = require('rollbar');
 const rollbar = new Rollbar({
-	accessToken: '48240675527e4d47933f2f5e3124f786',
+	accessToken: process.env.ROLLBAR_KEY,
 	captureUncaught: true,
 	captureUnhandledRejections: true,
 });
 
-module.exports = class MessageManager {
+module.exports = class ReactionManager {
 
 	constructor(client) {
 		this.client = client;
@@ -21,6 +21,7 @@ module.exports = class MessageManager {
 	async handleReactionAdd(messageReaction, user) {
 		//
 		// Get the reaction from the user
+		// TODO Load roles and channels from settings
 		const roleName = 'Apex Legends';
 		const role = messageReaction.message.guild.roles.find(role => role.name.toLowerCase() === roleName.toLowerCase());
 
@@ -34,7 +35,6 @@ module.exports = class MessageManager {
 				member.addRole(role.id).catch(err => rollbar.log(err));
 			}
 		}
-
 	}
 
 	async handleReactionDel(messageReaction, user) {

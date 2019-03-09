@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('settings', {
+		return queryInterface.createTable('Settings', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -11,11 +11,8 @@ module.exports = {
 			server_id: {
 				type: Sequelize.STRING,
 			},
-			setting_name: {
-				type: Sequelize.STRING,
-			},
-			setting_value: {
-				type: Sequelize.STRING,
+			settings: {
+				type: Sequelize.JSONB,
 			},
 			createdAt: {
 				allowNull: false,
@@ -28,6 +25,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface) => {
-		return queryInterface.dropTable('settings');
+		return queryInterface.dropTable('Settings');
 	},
 };

@@ -11,12 +11,6 @@ const client = new CommandoClient({
 	owner: '113086797872918528',
 	disableEveryone: true,
 });
-const Rollbar = require('rollbar');
-const rollbar = new Rollbar({
-	accessToken: '48240675527e4d47933f2f5e3124f786',
-	captureUncaught: true,
-	captureUnhandledRejections: true,
-});
 /*
 * Event Managers
 */
@@ -24,6 +18,7 @@ const MessageManager = require('./core/MessageManager');
 const VoiceManager = require('./core/VoiceManager');
 const ReactionManager = require('./core/ReactionManager');
 const MemberManager = require('./core/MemberManager');
+const RawManager = require('./core/RawManager');
 /*
 * Event Handlers
 */
@@ -31,8 +26,12 @@ const MsgEvent = new MessageManager(client);
 const VoiceEvent = new VoiceManager(client);
 const ReactionEvent = new ReactionManager(client);
 const MemberEvent = new MemberManager(client);
-
-//
+const RawEvent = new RawManager(client);
+/*
+* Custom event handlers
+*/
+const SettingsManager = require('./handlers/SettingsManager');
+const settings = new SettingsManager(client);
 // Registers things
 client.registry
 	.registerDefaultTypes()
@@ -44,7 +43,10 @@ client.registry
 	.registerCommandsIn(path.join(__dirname, 'cmd'));
 // Checks to see if the bot is ready
 client.on('ready', () => {
-	const text = ['!help', 'https://getsporked.lol'];
+	for(const guild in client.guilds) {
+		settings.defaultSettings(guild);
+	}
+	const text = ['!help', 'https://getsporked.lol', 'See #info for details'];
 	setInterval(() => {
 		const shuffle = Math.floor(Math.random() * text.length);
 		let selection = text[shuffle];
@@ -53,14 +55,14 @@ client.on('ready', () => {
 			status: 'online',
 			game: {
 				name: `${selection}`,
-				type: 'WATCHING',
+				type: 'STREAMING',
 			},
 		});
 	}, 5 * 60 * 1000);
 	client.user.setPresence({
 		game: {
 			name: text[0],
-			type: 'WATCHING',
+			type: 'STREAMING',
 		},
 	}).catch(console.error);
 	//
@@ -75,29 +77,13 @@ client.on('ready', () => {
 		console.log('=======================================================================');
 	}
 	console.log(`Logged in as ${client.user.tag}!`);
-});
-
-client.on('message', message => MsgEvent.handleMessage(message));
-client.on('guildMemberAdd', member => MemberEvent.joinServer(member));
-client.on('voiceStateUpdate', (oldMember, newMember) => VoiceEvent.handleVoiceUpdate(oldMember, newMember));
-client.on('messageReactionAdd', (messageReaction, user) => ReactionEvent.handleReactionAdd(messageReaction, user));
-client.on('messageReactionRemove', (messageReaction, user) => ReactionEvent.handleReactionDel(messageReaction, user));
-
-client.on('raw', (event) => {
-	const eventName = event.t;
-	if (eventName === 'MESSAGE_REACTION_ADD') {
-		if (event.d.message_id === '544764878632779789') {
-			const reactionChannel = client.channels.get(event.d.channel_id);
-			if (!reactionChannel.messages.has(event.d.message_id)) {
-				reactionChannel.fetchMessage(event.d.message_id)
-					.then(msg => {
-						const msgReaction = msg.reactions.get(event.d.emoji.name + ':' + event.d.emoji.id);
-						const user = client.users.get(event.d.user_id);
-						client.emit('messageReactionAdd', msgReaction, user);
-					})
-					.catch(err => rollbar.log(err));
-			}
-		}
-	}
-});
-client.login(process.env.DISCORD_TOKEN).catch();
+})
+	.on('error', err => console.error(err))
+	.on('warn', err => console.warn(err))
+	.on('message', message => MsgEvent.handleMessage(message))
+	.on('guildMemberAdd', member => MemberEvent.joinServer(member))
+	.on('voiceStateUpdate', (oldMember, newMember) => VoiceEvent.handleVoiceUpdate(oldMember, newMember))
+	.on('messageReactionAdd', (messageReaction, user) => ReactionEvent.handleReactionAdd(messageReaction, user))
+	.on('messageReactionRemove', (messageReaction, user) => ReactionEvent.handleReactionDel(messageReaction, user))
+	.on('raw', (event) => RawEvent.handleRawEvent(event));
+client.login(process.env.DISCORD_TOKEN).catch(err => console.error(err));

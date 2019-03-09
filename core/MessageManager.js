@@ -4,6 +4,9 @@ const levels = require('../util/levels');
 const Discord = require('discord.js');
 const { CommandoClient } = require('discord.js-commando');
 const User = require('../models').User;
+const MemeManager = require('../handlers/MemeManager');
+const memeHandle = new MemeManager();
+
 const cdSeconds = 30;
 const cdSet = new Set();
 const Rollbar = require('rollbar');
@@ -26,14 +29,24 @@ module.exports = class MessageManager {
 	async handleMessage(msg) {
 		// Don't Parse Bot Messages
 		if (msg.author.bot) return false;
-
 		// Create Helper Variables
 		const text = msg.cleanContent;
 		const attachments = msg.attachments.size > 0;
 		if (text.length < 1 && !attachments) return false;
 		const xpToAdd = levels.genXp(5, 12);
 		const coinsToAdd = 0;
-
+		const memeChannel = '551638919377190922';
+		if(msg.channel.id === memeChannel) {
+			if(attachments) {
+				memeHandle.postMeme(msg).catch(err => console.log(err));
+			}
+			else if(msg.attachments.size > 1) {
+				msg.delete().then(msg => msg.reply('One attachment at a time bro!!').then(msg => msg.delete(10000)));
+			}
+			else {
+				msg.delete().then(msg => msg.reply('Check the pins!!!').then(msg => msg.delete(10000)));
+			}
+		}
 		if(!cdSet.has(msg.author.id)) {
 			cdSet.add(msg.author.id);
 			setTimeout(() => {

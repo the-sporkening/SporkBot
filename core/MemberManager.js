@@ -2,7 +2,7 @@
 
 const { CommandoClient } = require('discord.js-commando');
 const User = require('../models').User;
-
+const Raven = require('raven');
 module.exports = class MemberManager {
 
 	constructor(client) {
@@ -16,7 +16,7 @@ module.exports = class MemberManager {
 
 	async joinServer(member) {
 		User.findOrCreate({ where: { user_id: member.id, server_id: member.guild.id } })
-			.catch(err => console.log(err));
+			.catch(err => Raven.captureException(err));
 		// member.message(this.welcomeMessage(member));
 	}
 	// async welcomeMessage() {
@@ -37,6 +37,6 @@ module.exports = class MemberManager {
 		member.guild.channels
 			.find('name', this.client.settings.get(member.guild.id, 'welcomeChannel'))
 			.send(embed)
-			.catch(console.error);*/
+			.catch();*/
 	// }
 };

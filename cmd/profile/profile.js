@@ -4,13 +4,7 @@ const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
 const User = require('../../models').User;
 const level = require('../../util/levels.js');
-const Rollbar = require('rollbar');
-const rollbar = new Rollbar({
-	accessToken: process.env.ROLLBAR_KEY,
-	captureUncaught: true,
-	captureUnhandledRejections: true,
-});
-
+const Raven = require('raven');
 module.exports = class ProfileCommand extends Command {
 	constructor(client) {
 		super(client, {
@@ -54,7 +48,7 @@ module.exports = class ProfileCommand extends Command {
 						.addField('Level: ', level.getLevel(query.xp, true), true);
 					msg.reply(embed)
 						.then(() => msg.delete(111))
-						.catch(err => console.log(err));
+						.catch(err => Raven.captureException(err));
 				}
 				else{
 					msg.reply('');
@@ -75,7 +69,7 @@ module.exports = class ProfileCommand extends Command {
 					.setColor('#103bff')
 					.addField('XP: ', query.xp, true)
 					.addField('Level: ', level.getLevel(query.xp, true), true);
-				msg.reply(embed).catch(err => rollbar.log(err));
+				msg.reply(embed).catch(err => Raven.captureException(err));
 			});
 		}
 	}

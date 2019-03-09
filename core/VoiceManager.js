@@ -4,6 +4,7 @@ const levels = require('../util/levels');
 const Discord = require('discord.js');
 const joined = new Discord.Collection();
 const User = require('../models').User;
+const Raven = require('raven');
 const { CommandoClient } = require('discord.js-commando');
 Reflect.defineProperty(joined, 'add', {
 	value: async function add(id, date) {
@@ -56,7 +57,7 @@ module.exports = class VoiceManager {
 							joined.delete(oldMember.user.id);
 						});
 				}
-			}).catch(err => console.log(err));
+			}).catch(err => Raven.captureException(err));
 		}
 	}
 };

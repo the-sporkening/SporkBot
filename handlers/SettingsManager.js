@@ -23,7 +23,7 @@ module.exports = class SettingsManager {
 		return config;
 	}
 	async saveSettings(guild, settings) {
-		this.defaultSettings(guild).catch(err => console.log(err));
-		// return this.client.settings.set(settings).catch(err => console.log(err));
+		this.defaultSettings(guild).catch(err => (err));
+		// return this.client.settings.set(settings).catch(err => (err));
 	}*/
 };

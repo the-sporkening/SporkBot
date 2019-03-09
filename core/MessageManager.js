@@ -9,12 +9,7 @@ const memeHandle = new MemeManager();
 
 const cdSeconds = 30;
 const cdSet = new Set();
-const Rollbar = require('rollbar');
-const rollbar = new Rollbar({
-	accessToken: '48240675527e4d47933f2f5e3124f786',
-	captureUncaught: true,
-	captureUnhandledRejections: true,
-});
+const Raven = require('raven');
 
 module.exports = class MessageManager {
 
@@ -38,7 +33,7 @@ module.exports = class MessageManager {
 		const memeChannel = '545038533950308362';
 		if(msg.channel.id === memeChannel) {
 			if(attachments) {
-				memeHandle.postMeme(msg).catch(err => console.log(err));
+				memeHandle.postMeme(msg).catch(err => Raven.captureException(err));
 			}
 			else if(msg.attachments.size > 1) {
 				msg.delete().then(msg => msg.reply('One attachment at a time bro!!').then(msg => msg.delete(10000)));
@@ -81,7 +76,7 @@ module.exports = class MessageManager {
 							}
 						});
 				}
-			}).catch(err => rollbar.error(err));
+			}).catch(err => Raven.captureException(err));
 		}
 	}
 };

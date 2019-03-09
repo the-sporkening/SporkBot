@@ -11,6 +11,9 @@ const client = new CommandoClient({
 	owner: '113086797872918528',
 	disableEveryone: true,
 });
+const Raven = require('raven');
+
+Raven.config('https://b22de32a074543659e912d9eaaf7f6b8@sentry.io/1410580').install();
 /*
 * Event Managers
 */
@@ -78,12 +81,12 @@ client.on('ready', () => {
 	}
 	console.log(`Logged in as ${client.user.tag}!`);
 })
-	.on('error', err => console.error(err))
-	.on('warn', err => console.warn(err))
+	.on('error', err => Raven.captureException(err))
+	.on('warn', err => Raven.captureException(err))
 	.on('message', message => MsgEvent.handleMessage(message))
 	.on('guildMemberAdd', member => MemberEvent.joinServer(member))
 	.on('voiceStateUpdate', (oldMember, newMember) => VoiceEvent.handleVoiceUpdate(oldMember, newMember))
 	.on('messageReactionAdd', (messageReaction, user) => ReactionEvent.handleReactionAdd(messageReaction, user))
 	.on('messageReactionRemove', (messageReaction, user) => ReactionEvent.handleReactionDel(messageReaction, user))
 	.on('raw', (event) => RawEvent.handleRawEvent(event));
-client.login(process.env.DISCORD_TOKEN).catch(err => console.error(err));
+client.login(process.env.DISCORD_TOKEN).catch(err => Raven.captureException(err));

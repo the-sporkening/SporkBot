@@ -1,7 +1,7 @@
 'use strict';
 
 const Discord = require('discord.js');
-
+const Raven = require('raven');
 module.exports = class MemeManager {
 	async postMeme(msg) {
 		// TODO Get attachment
@@ -20,7 +20,7 @@ module.exports = class MemeManager {
 				.then(function(message) {
 					message.react('⬆');
 					message.react('⬇');
-				}).catch(err => console.log(err));
+				}).catch(err => Raven.captureException(err));
 		}
 		msg.delete();
 		// TODO Verify it is only 1 attachment

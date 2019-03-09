@@ -1,12 +1,7 @@
 'use strict';
 
 const { CommandoClient } = require('discord.js-commando');
-const Rollbar = require('rollbar');
-const rollbar = new Rollbar({
-	accessToken: process.env.ROLLBAR_KEY,
-	captureUncaught: true,
-	captureUnhandledRejections: true,
-});
+const Raven = require('raven');
 
 module.exports = class ReactionManager {
 
@@ -32,7 +27,7 @@ module.exports = class ReactionManager {
 			if (member) {
 				//
 				// Add the role
-				member.addRole(role.id).catch(err => rollbar.log(err));
+				member.addRole(role.id).catch(err => Raven.captureException(err));
 			}
 		}
 	}
@@ -50,7 +45,7 @@ module.exports = class ReactionManager {
 			if (member) {
 				//
 				// Remove the role
-				member.removeRole(role.id).catch(err => rollbar.log(err));
+				member.removeRole(role.id).catch(err => Raven.captureException(err));
 			}
 		}
 	}

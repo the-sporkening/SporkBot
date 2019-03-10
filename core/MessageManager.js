@@ -96,7 +96,7 @@ module.exports = class MessageManager {
 		const xpToAdd = levels.genXp(5, 12);
 		const coinsToAdd = 0;
 
-		const memeChannel = '551638919377190922';
+		const memeChannel = '545038533950308362';
 		const memes = new MemeManager();
 		if(msg.channel.id === memeChannel) {
 			if(attachments) {

@@ -47,7 +47,7 @@ module.exports = class ProfileCommand extends Command {
 						.addField('XP: ', query.xp, true)
 						.addField('Level: ', level.getLevel(query.xp, true), true);
 					msg.reply(embed)
-						.then(() => msg.delete(111))
+						.then(() => msg.delete(1000))
 						.catch(err => Raven.captureException(err));
 				}
 				else{

@@ -22,7 +22,7 @@ module.exports = class MemeManager {
 					message.react('⬇');
 				}).catch(err => Raven.captureException(err));
 		}
-		msg.delete();
+		await msg.delete();
 		// TODO Verify it is only 1 attachment
 		// TODO Only get first attachment if more than 1
 		// TODO Add check for youtube links

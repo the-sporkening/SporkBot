@@ -2,7 +2,8 @@
 
 const { CommandoClient } = require('discord.js-commando');
 const Raven = require('raven');
-
+const memeChannel = '551638919377190922';
+const votes = ['⬆', '⬇'];
 module.exports = class ReactionManager {
 
 	constructor(client) {
@@ -12,7 +13,6 @@ module.exports = class ReactionManager {
 			throw new Error('Discord Client is required');
 		}
 	}
-
 	async handleReactionAdd(messageReaction, user) {
 		//
 		// Get the reaction from the user
@@ -30,6 +30,28 @@ module.exports = class ReactionManager {
 				member.addRole(role.id).catch(err => Raven.captureException(err));
 			}
 		}
+
+		// ⬆ ⬇
+		/* if (messageReaction.message.channel.id === memeChannel) {
+			const voteName = messageReaction.emoji.name;
+			// Check if the emote matches a meme reaction and user.id is valid
+			if (votes.includes(voteName) && user.id !== null) {
+				// Convert collection to array
+				const usersArray = messageReaction.users.array();
+				// console.log(usersArray);
+				// Loop through array and print user if exists
+				for (const userId in usersArray) {
+					if(usersArray[userId].id !== null) {
+
+						//console.log(messageReaction.message.reactions.array());
+					}
+					// console.log(usersArray[userId].id);
+				}
+			}
+			// TODO Get reaction
+			// TODO Check if opposite has user in it
+			// TODO If true remove and add to clicked vote
+		}*/
 	}
 
 	async handleReactionDel(messageReaction, user) {

@@ -2,8 +2,8 @@
 
 const { CommandoClient } = require('discord.js-commando');
 const Raven = require('raven');
-const memeChannel = '551638919377190922';
-const votes = ['⬆', '⬇'];
+// const memeChannel = '551638919377190922';
+// const votes = ['⬆', '⬇'];
 module.exports = class ReactionManager {
 
 	constructor(client) {

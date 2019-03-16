@@ -47,7 +47,7 @@ module.exports = class ProfileCommand extends Command {
 						.addField('XP: ', query.xp, true)
 						.addField('Level: ', level.getLevel(query.xp, true), true);
 					msg.reply(embed)
-						.then(() => msg.delete(1000))
+						.then(msg => msg.delete(10000))
 						.catch(err => Raven.captureException(err));
 				}
 				else{
@@ -69,8 +69,11 @@ module.exports = class ProfileCommand extends Command {
 					.setColor('#103bff')
 					.addField('XP: ', query.xp, true)
 					.addField('Level: ', level.getLevel(query.xp, true), true);
-				msg.reply(embed).catch(err => Raven.captureException(err));
+				msg.reply(embed)
+					.then(msg => msg.delete(10000))
+					.catch(err => Raven.captureException(err));
 			});
 		}
+		msg.delete(10 * 1000);
 	}
 };

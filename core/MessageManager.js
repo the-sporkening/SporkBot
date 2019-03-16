@@ -6,7 +6,7 @@ const { CommandoClient } = require('discord.js-commando');
 const User = require('../models').User;
 const MemeManager = require('../handlers/MemeManager');
 
-const cdSeconds = 1;
+const cdSeconds = 30;
 const cdSet = new Set();
 const Raven = require('raven');
 
@@ -138,7 +138,7 @@ module.exports = class MessageManager {
 									.setColor('#148d14')
 									.addField('You have reached Level: ', curLvl + 1, true)
 									.setThumbnail(msg.author.avatarURL);
-								msg.reply(embed).then(() => {
+								msg.reply(embed).then(msg => {
 									msg.delete(10000);
 								});
 							}

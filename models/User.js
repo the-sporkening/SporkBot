@@ -3,7 +3,9 @@ module.exports = (sequelize, DataTypes) => {
 	const User = sequelize.define('User', {
 		user_id: DataTypes.STRING,
 		server_id: DataTypes.STRING,
-		xp: DataTypes.INTEGER,
+		xp: {
+			type: DataTypes.INTEGER,
+		},
 		coins: DataTypes.INTEGER,
 	}, {});
 	/*	User.associate = function(models) {

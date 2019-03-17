@@ -4,6 +4,8 @@ const { Command } = require('discord.js-commando');
 const User = require('../../models').User;
 const level = require('../../util/levels.js');
 const Raven = require('raven');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports = class ProfileCommand extends Command {
 	constructor(client) {
@@ -25,6 +27,9 @@ module.exports = class ProfileCommand extends Command {
 		User.findAll({
 			where: {
 				server_id: msg.guild.id,
+				xp: {
+					[Op.gt]: 0,
+				},
 			},
 			limit: 6,
 			order: [

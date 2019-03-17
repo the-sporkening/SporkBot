@@ -15,7 +15,7 @@ module.exports = class MemberManager {
 	}
 
 	async joinServer(member) {
-		User.findOrCreate({ where: { user_id: member.id, server_id: member.guild.id } })
+		User.findOrCreate({ where: { user_id: member.id, server_id: member.guild.id }, defaults: { xp: 0, coins: 0 } })
 			.catch(err => Raven.captureException(err));
 		// member.message(this.welcomeMessage(member));
 	}

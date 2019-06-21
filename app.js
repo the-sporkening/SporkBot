@@ -13,7 +13,6 @@ const client = new CommandoClient({
 });
 const Raven = require('raven');
 
-Raven.config('https://b22de32a074543659e912d9eaaf7f6b8@sentry.io/1410580').install();
 /*
 * Event Managers
 */

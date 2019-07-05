@@ -1,7 +1,7 @@
 // Main Requires
 require('dotenv').config();
-const log = require('../util/logger');
-const bot = require('../bot');
+// const log = require('../util/logger');
+// const bot = require('../bot');
 
 const handleMessage = function(msg) {
 	if (msg.author.bot) return false;

@@ -33,8 +33,8 @@ bot.on('ready', () => {
 // Voice xp updates
 // .on('voiceStateUpdate', (oldMember, newMember) => voiceManager.handleVoiceUpdate(oldMember, newMember))
 	.on('voiceChannelJoin', (member, newChannel) => voiceManager.handleChannelJoin(member, newChannel))
-	.on('voiceChannelLeave', (member, oldChannel) => voiceManager.handleChannelLeave(member, oldChannel))
-	.on('voiceChannelSwitch', (member, newChannel, oldChannel) => voiceManager.handleChannelSwitch(member, newChannel, oldChannel));
+	.on('voiceChannelLeave', (member, oldChannel) => voiceManager.handleChannelLeave(member, oldChannel));
+// .on('voiceChannelSwitch', (member, newChannel, oldChannel) => voiceManager.handleChannelSwitch(member, newChannel, oldChannel));
 // Reaction Handlers
 // .on('messageReactionAdd', (messageReaction, user) => reactionManager.handleReactionAdd(messageReaction, user))
 // .on('messageReactionRemove', (messageReaction, user) => reactionManager.handleReactionDel(messageReaction, user))

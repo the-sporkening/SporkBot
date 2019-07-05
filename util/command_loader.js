@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const bot = require('../bot.js');
-const log = require('./logger');
 
 function loadCommands() {
 	const commandsPath = path.join(__dirname, '..', '/cmds');

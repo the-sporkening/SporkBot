@@ -2,5 +2,5 @@
 
 // Main Requires
 require('dotenv').config();
-const log = require('../util/logger');
-const bot = require('../bot.js');
+// const log = require('../util/logger');
+// const bot = require('../bot.js');

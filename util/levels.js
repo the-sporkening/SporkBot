@@ -1,4 +1,4 @@
-const log = require('./logger')
+const log = require('./logger');
 const bot = require('../bot');
 
 // Calculate user level
@@ -20,6 +20,6 @@ const genXp = function(min, max) {
 };
 
 module.exports = {
-    getLevel:calcLevel,
-    genXp:genXp,
-}
+	getLevel:calcLevel,
+	genXp:genXp,
+};

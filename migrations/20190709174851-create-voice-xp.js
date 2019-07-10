@@ -1,18 +1,18 @@
 'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('Settings', {
+		return queryInterface.createTable('VoiceXPs', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
-			server_id: {
+			snowflake: {
 				type: Sequelize.STRING,
 			},
-			settings: {
-				type: Sequelize.JSONB,
+			joined: {
+				type: Sequelize.STRING,
 			},
 			createdAt: {
 				allowNull: false,
@@ -24,7 +24,7 @@ module.exports = {
 			},
 		});
 	},
-	down: (queryInterface) => {
-		return queryInterface.dropTable('Settings');
+	down: (queryInterface, Sequelize) => {
+		return queryInterface.dropTable('VoiceXPs');
 	},
 };

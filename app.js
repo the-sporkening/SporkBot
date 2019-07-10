@@ -8,8 +8,7 @@ const bot = require('./bot.js');
 const loadCommands = require('./util/command_loader.js');
 // Managers
 const messageManager = require('./core/messageManager');
-const VoiceManager = require('./core/voiceManager');
-const VoiceEvent = new VoiceManager();
+const voiceManager = require('./core/voiceManager');
 
 
 bot.on('ready', () => {
@@ -33,11 +32,11 @@ bot.on('ready', () => {
 // .on('guildMemberAdd', (guild, member) => serverManager.joinServer(guild, member))
 // Voice xp updates
 // .on('voiceStateUpdate', (oldMember, newMember) => voiceManager.handleVoiceUpdate(oldMember, newMember))
-	.on('voiceChannelJoin', (member, newChannel) => VoiceEvent.handleChannelJoin(member, newChannel))
-	.on('voiceChannelLeave', (member, oldChannel) => VoiceEvent.handleChannelLeave(member, oldChannel));
+	.on('voiceChannelJoin', (member, newChannel) => voiceManager.handleChannelJoin(member, newChannel))
+	.on('voiceChannelLeave', (member, oldChannel) => voiceManager.handleChannelLeave(member, oldChannel));
 // .on('voiceChannelSwitch', (member, newChannel, oldChannel) => voiceManager.handleChannelSwitch(member, newChannel, oldChannel));
 // Reaction Handlers
 // .on('messageReactionAdd', (messageReaction, user) => reactionManager.handleReactionAdd(messageReaction, user))
 // .on('messageReactionRemove', (messageReaction, user) => reactionManager.handleReactionDel(messageReaction, user))
-;
+
 bot.connect();

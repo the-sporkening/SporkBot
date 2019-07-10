@@ -7,16 +7,13 @@
     "chalk": "^2.4.2",
     "dotenv": "^8.0.0",
     "eris": "^0.10.0",
-    "mysql2": "^1.6.5",
     "sequelize": "^5.9.0"
   },
   "devDependencies": {
-    "eslint": "^6.0.1",
-    "sequelize-cli": "^5.5.0"
+    "eslint": "^6.0.1"
   },
   "scripts": {
-    "start": "node app.js",
-    "lint": "eslint . --fix"
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC"

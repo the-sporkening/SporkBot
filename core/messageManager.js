@@ -6,19 +6,16 @@ require('dotenv').config();
 const handleMessage = function(msg) {
 	if (msg.author.bot) return false;
 	if(msg.channel.name === 'memes') {
-		try{
-			msg.delete();
-			memeMessage(msg);
-		}catch(e){
-
-		}
+		msg.delete();
+		memeMessage(msg);
 	}
 };
 
 const memeMessage = function(msg) {
 	const attLength = msg.attachments.length;
+	const attachments = attLength > 0 && attLength < 2;
 	const msgTime = 5 * 1000;
-	if(attLength === 1) {
+	if(attachments) {
 		const memeEmbed = {
 			embed: {
 				title: msg.content,
@@ -41,7 +38,7 @@ const memeMessage = function(msg) {
 		//   derp.addReaction('⬇');
 		return msg.channel.createMessage(memeEmbed);
 	}
-	else if(attLength >= 2) {
+	else if(attLength > 2) {
 		return msg.channel.createMessage(msg.author.mention + ' You are posting too many attachments! (Limit 1)').then(msg => msg.delete(msgTime));
 	}
 	else{

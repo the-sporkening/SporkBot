@@ -1,25 +1,10 @@
-version: '3'
+version: '2.1'
 
 services:
-  sporkbot:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: sporkbot
-    container_name: sporkbot
-    restart: unless-stopped
-    env_file: .env
+  sporkbot v2:
+    image: sporkbot v2
+    build: .
     environment:
-      - TOKEN=$TOKEN
-      - PREFIX=$PREFIX
-      - AUTHOR=$AUTHOR
-      - YOUTUBEKEY=$YOUTUBEKEY
-      - DEVGUILD=$DEVGUILD
-    volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-      - resources:/home/node/app/resources
-
-volumes:
-  node_modules:
-    resources:
+      NODE_ENV: production
+    ports:
+      - 3000:3000

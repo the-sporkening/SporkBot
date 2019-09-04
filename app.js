@@ -8,8 +8,12 @@ const bot = require('./bot.js');
 const loadCommands = require('./util/command_loader.js');
 // Managers
 const messageManager = require('./core/messageManager');
-const voiceManager = require('./core/voiceManager');
-
+// const voiceManager = require('./core/voiceManager');
+const Sentry = require('@sentry/node');
+Sentry.init({
+	dsn: process.env.SENTRY_URL,
+	release: 'sporkbot@1.0.0',
+});
 
 bot.on('ready', () => {
 	log.warn('Initializing SporkBOT...');
@@ -27,13 +31,13 @@ bot.on('ready', () => {
 	.on('error', err => log.error(err))
 	.on('warn', err => log.warn(err))
 // Message Handling
-	.on('messageCreate', message => messageManager.handleMessage(message))
+	.on('messageCreate', message => messageManager.handleMessage(message));
 // Member Join Functions
 // .on('guildMemberAdd', (guild, member) => serverManager.joinServer(guild, member))
 // Voice xp updates
 // .on('voiceStateUpdate', (oldMember, newMember) => voiceManager.handleVoiceUpdate(oldMember, newMember))
-	.on('voiceChannelJoin', (member, newChannel) => voiceManager.handleChannelJoin(member, newChannel))
-	.on('voiceChannelLeave', (member, oldChannel) => voiceManager.handleChannelLeave(member, oldChannel));
+// .on('voiceChannelJoin', (member, newChannel) => voiceManager.handleChannelJoin(member, newChannel))
+// .on('voiceChannelLeave', (member, oldChannel) => voiceManager.handleChannelLeave(member, oldChannel));
 // .on('voiceChannelSwitch', (member, newChannel, oldChannel) => voiceManager.handleChannelSwitch(member, newChannel, oldChannel));
 // Reaction Handlers
 // .on('messageReactionAdd', (messageReaction, user) => reactionManager.handleReactionAdd(messageReaction, user))

@@ -6,8 +6,10 @@ docker-compose*
 .git
 .gitignore
 .env
+.env.example
 */bin
 */obj
 README.md
 LICENSE
 .vscode
+.eslintrc.json

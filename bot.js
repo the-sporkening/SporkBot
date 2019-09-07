@@ -10,7 +10,7 @@ const { readSync } = require('readdir');
 if (process.env.SENTRY_URL) {
 	try {
 		client.logger.log('Sentry Monitoring Loading...');
-		Sentry.init({ dsn: process.env.SENTRY_URL });
+		Sentry.init({ dsn: process.env.SENTRY_URL, environment: process.env.NODE_ENV });
 		client.logger.info('Sentry Monitoring Loaded and Ready!');
 	}
 	catch (e) {

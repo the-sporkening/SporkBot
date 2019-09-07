@@ -291,10 +291,10 @@ delegates@^1.0.0:
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
 
-discord-akairo@^7.5.6:
-  version "7.5.6"
-  resolved "https://registry.yarnpkg.com/discord-akairo/-/discord-akairo-7.5.6.tgz#3508262106c91be135a3cbcece17f09727fa3934"
-  integrity sha512-u/hmpCs6IN2XJAm1Y5DUEawJc+ybWCzf4QPsOKsbbwWx2pHBCSGABazsstSEdVAhE3ZdwP/GAbgyKDR0ceQqsw==
+discord-akairo@^8.0.0-beta.8:
+  version "8.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/discord-akairo/-/discord-akairo-8.0.0-beta.8.tgz#664c1f4fb819ec1d057ed7a36d2e38a68f53367b"
+  integrity sha512-aT64C1vvntCoSV/i/yAVAHrYyz1Y+5IAWagUaDsrv8M2zKmakcOvT62Iqhz5oK89k8UgVU23aIsLiq01U1bJDQ==
 
 discord.js@^11.5.1:
   version "11.5.1"
@@ -760,6 +760,11 @@ pgpass@1.x:
   integrity sha1-Knu0G2BltnkH6R2hsHwYR8h3swY=
   dependencies:
     split "^1.0.0"
+
+pluralize@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
+  integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
 
 postgres-array@~2.0.0:
   version "2.0.0"

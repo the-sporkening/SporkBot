@@ -12,7 +12,7 @@ class VolumeCommand extends Command {
 	}
 
 	async exec(msg, args) {
-		if (!msg.member.voice.channelID) {return await msg.channel.send('Admiral, you are not in a voice channel to perform this');}
+		if (!msg.member.voiceChannelID) {return await msg.channel.send('Admiral, you are not in a voice channel to perform this');}
 		const dispatcher = this.client.queue.get(msg.guild.id);
 		if (!dispatcher) {
 			return await msg.channel.send('Nothing is playing in this guild.');

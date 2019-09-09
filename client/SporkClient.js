@@ -5,6 +5,8 @@ const path = require('path');
 const SettingsProvider = require('../client/SettingsProvider');
 const Setting = require('../models/settings');
 const Logger = require('../util/Logger');
+const { Shoukaku } = require('shoukaku');
+const Queue = require('../modules/Queue');
 require('dotenv').config();
 class SporkClient extends AkairoClient {
 	constructor(config) {
@@ -38,6 +40,7 @@ class SporkClient extends AkairoClient {
 				},
 			},
 		});
+
 		this.listenerHandler = new ListenerHandler(this, {
 			directory: path.join(__dirname, '../listeners'),
 		});
@@ -50,9 +53,20 @@ class SporkClient extends AkairoClient {
 			commandHandler: this.commandHandler,
 			listenerHandler: this.listenerHandler,
 		});
-
 		this.commandHandler.loadAll();
 		this.listenerHandler.loadAll();
+		this.shoukaku = new Shoukaku(this, {
+			resumable: 'resumablespork',
+			resumableTimeout: 30,
+			reconnectTries: 2,
+			restTimeout: 10000,
+		});
+		this.queue = new Queue(this);
+		this.shoukaku.on('ready', (name, resumed) => this.logger.info(`Lavalink Node: ${name} is now connected. This connection is ${resumed ? 'resumed' : 'a new connection'}`));
+		this.shoukaku.on('error', (name, error) => this.logger.error(`Lavalink Node: ${name} emitted an error.`, error));
+		this.shoukaku.on('close', (name, code, reason) => this.logger.log(`Lavalink Node: ${name} closed with code ${code}. Reason: ${reason || 'No reason'}`));
+		this.shoukaku.on('disconnected', (name, reason) => this.logger.warn(`Lavalink Node: ${name} disconnected. Reason: ${reason || 'No reason'}`));
+
 	}
 
 	async start() {

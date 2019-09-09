@@ -1,12 +1,12 @@
 const { Command } = require('discord-akairo');
 const { RichEmbed } = require('discord.js');
-class KickCommand extends Command {
+class BanCommand extends Command {
 	constructor() {
-		super('kick', {
-			aliases: ['kick'],
+		super('ban', {
+			aliases: ['ban'],
 			category: 'moderation',
 			description: {
-				content: 'Kicks a specified member from the current Discord guild.',
+				content: 'Bans a specified member from the current Discord guild.',
 				usage: '<member> <reason>',
 			},
 			args: [
@@ -36,16 +36,16 @@ class KickCommand extends Command {
 		}
 
 		if (!member) {
-			return message.channel.send('You did not mention the member you would like to kick!');
+			return message.channel.send('You did not mention the member you would like to ban!');
 		}
 
 		if (!reason) {
-			return message.channel.send('You did not give a reason as to why you want to kick this member!');
+			return message.channel.send('You did not give a reason as to why you want to ban this member!');
 		}
 
-		await member.kick(reason).then(() => {
+		await member.ban(reason).then(() => {
 			const embed = new RichEmbed()
-				.setTitle('Member kicked!')
+				.setTitle('Member banned!')
 				.setColor(member.displayHexColor)
 				.setThumbnail(member.avatarURL)
 				.setDescription(
@@ -67,4 +67,4 @@ class KickCommand extends Command {
 	}
 }
 
-module.exports = KickCommand;
+module.exports = BanCommand;

@@ -1,10 +1,10 @@
 const { AkairoClient, CommandHandler, ListenerHandler } = require('discord-akairo');
 // const { Collection } = require('discord.js');
-const Database = require('./Database');
 const path = require('path');
+const Database = require('./Database');
 const SettingsProvider = require('../client/SettingsProvider');
 const Setting = require('../models/settings');
-const Logger = require('../util/Logger');
+const Logger = require('../util/logger');
 const { Shoukaku } = require('shoukaku');
 const Queue = require('../modules/Queue');
 require('dotenv').config();

@@ -1,5 +1,5 @@
-const Logger = require('../util/Logger');
 const path = require('path');
+const Logger = require(path.join(__dirname + '/util/logger.js'));
 const readdir = require('util').promisify(require('fs').readdir);
 const Sequelize = require('sequelize');
 const env = process.env.NODE_ENV || 'development';

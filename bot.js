@@ -1,5 +1,6 @@
-const SporkClient = require('./client/SporkClient');
-const pjson = require('./package.json');
+const path = require('path');
+const SporkClient = require(path.join(__dirname + '/client/SporkClient'));
+const pjson = require(path.join(__dirname + '/package.json'));
 require('dotenv').config();
 const client = new SporkClient({ owner: process.env.OWNERS, token: process.env.DISCORD_TOKEN });
 const Sentry = require('@sentry/node');
@@ -19,12 +20,12 @@ if (process.env.SENTRY_URL) {
 }
 
 // Event Loader
-const evtFiles = readSync('./events');
+const evtFiles = readSync(path.join(__dirname + './events'));
 client.logger.log(`Loading a total of ${evtFiles.length} events.`);
 evtFiles.forEach(file => {
 	const eventName = file.split('.')[0];
 	client.logger.log(`Loading Event: ${eventName}`);
-	const event = require(`./events/${file}`);
+	const event = require(path.join(__dirname + `./events/${file}`));
 	// Bind the client to any event, before the existing arguments
 	client.on(eventName, event.bind(null, client));
 });
@@ -33,7 +34,23 @@ client.logger.info(`Loaded a total of ${evtFiles.length} events.`);
 client.on('disconnect', () => client.logger.warn('Connection lost...'))
 	.on('reconnect', () => client.logger.info('Attempting to reconnect...'))
 	.on('error', err => client.logger.error(err))
-	.on('warn', info => client.logger.warn(info));
+	.on('warn', info => client.logger.warn(info))
+	.on('raw', packet => {
+		if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t)) return;
+		const channel = client.channels.get(packet.d.channel_id);
+		if (channel.messages.has(packet.d.message_id)) return;
+		channel.fetchMessage(packet.d.message_id).then(message => {
+			const emoji = packet.d.emoji.id ? `${packet.d.emoji.name}:${packet.d.emoji.id}` : packet.d.emoji.name;
+			const reaction = message.reactions.get(emoji);
+			if (reaction) reaction.users.set(packet.d.user_id, client.users.get(packet.d.user_id));
+			if (packet.t === 'MESSAGE_REACTION_ADD') {
+				client.emit('messageReactionAdd', reaction, client.users.get(packet.d.user_id));
+			}
+			if (packet.t === 'MESSAGE_REACTION_REMOVE') {
+				client.emit('messageReactionRemove', reaction, client.users.get(packet.d.user_id));
+			}
+		});
+	});
 client.start();
 
 process.on('unhandledRejection', err => {

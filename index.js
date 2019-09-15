@@ -9,4 +9,5 @@ const manager = new ShardingManager('./bot.js', {
 });
 
 manager.spawn();
-manager.on('launch', shard => Logger.info(`Launched shard ${shard.id}/${manager.shards.size}`));
+
+manager.on('launch', shard => Logger.info(`Launched shard ${shard.id + 1}/${manager.shards.size}`));

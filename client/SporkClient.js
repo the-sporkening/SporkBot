@@ -41,9 +41,9 @@ class SporkClient extends AkairoClient {
 			},
 		});
 
-		this.listenerHandler = new ListenerHandler(this, {
-			directory: path.join(__dirname, '../listeners'),
-		});
+		// this.listenerHandler = new ListenerHandler(this, {
+		// 	directory: path.join(__dirname, '../listeners'),
+		// });
 		this.settings = new SettingsProvider(Setting);
 		this.setup();
 	}
@@ -51,10 +51,10 @@ class SporkClient extends AkairoClient {
 		this.commandHandler.useListenerHandler(this.listenerHandler);
 		this.listenerHandler.setEmitters({
 			commandHandler: this.commandHandler,
-			listenerHandler: this.listenerHandler,
+			// listenerHandler: this.listenerHandler,
 		});
 		this.commandHandler.loadAll();
-		this.listenerHandler.loadAll();
+		// this.listenerHandler.loadAll();
 		this.shoukaku = new Shoukaku(this, {
 			resumable: 'resumablespork',
 			resumableTimeout: 30,

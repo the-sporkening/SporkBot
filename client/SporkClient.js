@@ -49,10 +49,10 @@ class SporkClient extends AkairoClient {
 	}
 	setup() {
 		this.commandHandler.useListenerHandler(this.listenerHandler);
-		this.listenerHandler.setEmitters({
-			commandHandler: this.commandHandler,
-			// listenerHandler: this.listenerHandler,
-		});
+		// this.listenerHandler.setEmitters({
+		// 	commandHandler: this.commandHandler,
+		//  listenerHandler: this.listenerHandler,
+		// });
 		this.commandHandler.loadAll();
 		// this.listenerHandler.loadAll();
 		this.shoukaku = new Shoukaku(this, {

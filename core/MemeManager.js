@@ -1,40 +1,24 @@
-const { RichEmbed } = require('discord.js');
-const Logger = require('../util/Logger');
+// const { RichEmbed } = require('discord.js');
+// const Logger = require('../util/Logger');
 const createMeme = function(msg) {
-	if (msg.author.bot) return;
-	const memeEmbed = msg.embeds[0];
-	const memeAttach = msg.attachments;
-	const msgTime = 5 * 1000;
-	let embed;
-	if (memeAttach.length === 1) {
-		embed = new RichEmbed()
-			.setImage(memeAttach[0].proxyURL)
-			.setAuthor(msg.author.username)
-			.setTitle(msg.content)
-			.setColor('#00ff45')
-			.setFooter('Spork Memes v1')
-			.setTimestamp(new Date())
-			.setThumbnail(msg.author.avatarURL);
-		return msg.channel.send(embed)
-			.then(function(message) {
-				message.react('⬆');
-				message.react('⬇');
-			}).catch(err => Logger.error(err, { tag: 'Meme Attach' }));
-	}
-	else if(msg.embeds) {
-		// Logger.log(memeEmbed);
-		embed = new RichEmbed(memeEmbed);
-		return msg.channel.send(embed)
-			.then(function(message) {
-				message.react('⬆');
-				message.react('⬇');
-			}).catch(err => Logger.error(err, { tag: 'Meme Embed' }));
-	}
-	else if((memeAttach || memeEmbed) >= 2) {
-		return msg.channel.send(msg.author.mention + ' You are posting too many attachments! (Limit 1)').then(msg => msg.delete(msgTime));
-	}
-	else{
-		return msg.channel.send(msg.author.mention + ' You need to attach something to post in the memes channel!').then(msg => msg.delete(msgTime));
-	}
+
+	// TODO Bot Checks If Module Enabled
+	// TODO User posts meme
+	// TODO Bot adds meme to db
+	// TODO Bot reacts with emoji
+	// TODO If user already reacted add to other
+	// TODO Detect reports
+	// TODO Delete Meme if reported
+	// TODO If meme reaches featured pin to channel
+	// TODO ADD/REMOVE Karma
+	// TODO Check if user exists in UP/DOWN vote
+
+	msg.react('⬆')
+		.then(() => msg.react('⬇'))
+		.then(() => msg.react('⚠'))
+		.catch(() => console.error('One of the emojis failed to react.'));
+	// msg.react('⬆');
+	// msg.react('⬇');
+	// msg.react('⚠');
 };
 module.exports = { createMeme };

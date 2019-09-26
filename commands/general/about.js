@@ -1,5 +1,5 @@
-const { Command, version: akairoVersion } = require('discord-akairo');
-const { version: djsVersion } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const { Command } = require('discord-akairo');
 
 class AboutCommand extends Command {
 	constructor() {
@@ -10,13 +10,16 @@ class AboutCommand extends Command {
 	}
 
 	exec(message) {
-		return message.channel.send([
-			'Sporkbot is made by Snipey#0001',
-			'Source code is available at <https://github.com/Snipey/SporkBot>.',
-			'',
-			'SporkBot Is a utensil themed discord bot.',
-			'Check it out here <https://github.com/Snipey/SporkBot>.',
-		]);
+		const embed = new MessageEmbed()
+			.setColor(0xFFAC33)
+			.setTitle('About SporkBot')
+			.addField('Owner', [
+				'**Discord**: Snipey#0001',
+				'**Twitter**: https://twitter.com/snipeydev',
+				'**Patreon**: https://patreon.com/snipeydev',
+			], true);
+
+		return message.channel.send(embed);
 	}
 }
 

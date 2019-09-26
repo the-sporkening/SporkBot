@@ -33,7 +33,7 @@ class PruneCommand extends Command {
 			const messages = await message.channel.fetchMessages({ limit: count + 1 });
 			await message.channel.bulkDelete(messages, true);
 			await message.channel.send(`Deleting ${messageCount}, please wait...`).then((msg) => {
-				msg.edit(`Deleted ${messageCount}.`).then(res => res.delete({ timeout: 15000 }));
+				msg.edit(`Deleted ${messageCount}.`).then(res => res.delete(15000));
 			});
 			this.client.logger.info(`Deleted ${messageCount} from #${channel.name} in the guild ${message.guild}.`);
 		}

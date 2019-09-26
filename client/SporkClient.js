@@ -1,8 +1,7 @@
-const { AkairoClient, CommandHandler, ListenerHandler } = require('discord-akairo');
+const { AkairoClient, CommandHandler } = require('discord-akairo');
 // const { Collection } = require('discord.js');
-const path = require('path');
-const Database = require('./Database');
-const SettingsProvider = require('../client/SettingsProvider');
+const Database = require('../client/Database');
+const SettingsProvider = require('../client/providers/SettingsProvider');
 const Setting = require('../models/settings');
 const Logger = require('../util/logger');
 const { Shoukaku } = require('shoukaku');
@@ -11,7 +10,7 @@ require('dotenv').config();
 class SporkClient extends AkairoClient {
 	constructor(config) {
 		super({
-			ownerID: config.owner,
+			ownerID: '113086797872918528',
 			disabledEvents: ['TYPING_START'],
 			commandUtilLifetime: 600000,
 		});
@@ -20,7 +19,7 @@ class SporkClient extends AkairoClient {
 		this.commandHandler = new CommandHandler(this, {
 			directory: './commands',
 			aliasReplacement: /-/g,
-			prefix: message => this.settings.get(message.guild, 'prefix', 's!'),
+			prefix: message => this.settings.get(message.guild, 'prefix', ';'),
 			allowMention: true,
 			fetchMembers: true,
 			commandUtil: true,
@@ -66,7 +65,6 @@ class SporkClient extends AkairoClient {
 		this.shoukaku.on('error', (name, error) => this.logger.error(`Lavalink Node: ${name} emitted an error.`, error));
 		this.shoukaku.on('close', (name, code, reason) => this.logger.log(`Lavalink Node: ${name} closed with code ${code}. Reason: ${reason || 'No reason'}`));
 		this.shoukaku.on('disconnected', (name, reason) => this.logger.warn(`Lavalink Node: ${name} disconnected. Reason: ${reason || 'No reason'}`));
-
 	}
 
 	async start() {

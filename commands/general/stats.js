@@ -1,5 +1,5 @@
 const { Command, version: akairoVersion } = require('discord-akairo');
-const { RichEmbed, version: djsVersion } = require('discord.js');
+const { MessageEmbed, version: djsVersion } = require('discord.js');
 const { version: sporkVersion } = require('../../package.json');
 
 
@@ -34,7 +34,7 @@ class StatsCommand extends Command {
 	}
 
 	async exec(message) {
-		const embed = new RichEmbed()
+		const embed = new MessageEmbed()
 			.setColor(0xFFAC33)
 			.setTitle('SporkBot Statistics')
 			.addField('Discord', [

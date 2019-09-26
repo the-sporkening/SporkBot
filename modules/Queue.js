@@ -1,4 +1,4 @@
-const SporkDispatcher = require('./SporkDispatcher.js');
+const SporkDispatcher = require('./SporkDispatcher');
 
 class Queue extends Map {
 	constructor(client, iterable) {
@@ -12,7 +12,7 @@ class Queue extends Map {
 		if (!existing) {
 			const player = await node.joinVoiceChannel({
 				guildID: msg.guild.id,
-				voiceChannelID: msg.member.voiceChannelID,
+				voiceChannelID: msg.member.voice.channelID,
 			});
 			const dispatcher = new SporkDispatcher({
 				client: this.client,

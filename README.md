@@ -1,6 +1,6 @@
 # Sporkbot
 
-A General bot I made for fun to use on my personal discord. Enjoy :)
+A modular discord bot made for servers of all kinds.
 
 ### Using
 - Discord.js (Main Framework)
@@ -38,8 +38,11 @@ A General bot I made for fun to use on my personal discord. Enjoy :)
         - Display level/XP
         - Profile Picture
     - Music
+        - Designated Music channel
         - Pause/Play
         - Skip commands
+            - Reaction Skip
+        - Seek(Fast forward rewind)
         - Music Queuing
         - Round Robin DJ
         - DJ Role

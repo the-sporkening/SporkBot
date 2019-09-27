@@ -1,0 +1,37 @@
+# TODO
+
+- Create modules enable/disable
+	- Music
+	- Moderation
+	- Server Memes
+	- Clips
+	- Welcome Message
+	- Announcements
+	- Reaction Roles
+	- Server Logs
+	- Roles
+	- Custom commands
+	- Reaction moderation
+	- Level System
+- Create Web Dashboard
+
+- Music
+	- Add setting for DJ role
+	- Add round robin DJ
+	- Add Paginated Music Queue
+- Moderation
+	- Add moderations logs
+	- Assign logs to channel
+	- Add command to lockdown a channel/server
+	- Restrict server lockdown to guild owner only
+	- Add reaction moderation
+		- Add reaction reports
+	- Add a configurable message filter
+	- Add default messages to filter
+- Gamification
+	- Add xp system to bot
+	- Add xp modifiers configuration
+	- Add Karma System
+- Create settings
+	- Bot prefix
+	- Modules enabled/disabled

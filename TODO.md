@@ -10,11 +10,16 @@
 	- Reaction Roles
 	- Server Logs
 	- Roles
-	- Custom commands
+	- Custom commands?
 	- Reaction moderation
 	- Level System
 - Create Web Dashboard
-
+	- Stats Page
+	- Settings Page
+	- Music Page
+	- Roles Page
+	- Moderation Page
+	- Reaction Roles Page
 - Music
 	- Add setting for DJ role
 	- Add round robin DJ
@@ -26,6 +31,10 @@
 	- Restrict server lockdown to guild owner only
 	- Add reaction moderation
 		- Add reaction reports
+			- Log message id
+			- Log author
+			- 
+		- Add setting for what channel reports are posted to
 	- Add a configurable message filter
 	- Add default messages to filter
 - Gamification
@@ -33,5 +42,4 @@
 	- Add xp modifiers configuration
 	- Add Karma System
 - Create settings
-	- Bot prefix
 	- Modules enabled/disabled

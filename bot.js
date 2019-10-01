@@ -20,16 +20,16 @@ if (process.env.SENTRY_URL) {
 }
 
 // Event Loader
-const evtFiles = readSync(path.join(__dirname + '/events'));
-client.logger.log(`Loading a total of ${evtFiles.length} events.`);
-evtFiles.forEach(file => {
-	const eventName = file.split('.')[0];
-	client.logger.log(`Loading Event: ${eventName}`);
-	const event = require(path.join(__dirname + `/events/${file}`));
-	// Bind the client to any event, before the existing arguments
-	client.on(eventName, event.bind(null, client));
-});
-client.logger.info(`Loaded a total of ${evtFiles.length} events.`);
+// const evtFiles = readSync(path.join(__dirname + '/events'));
+// client.logger.log(`Loading a total of ${evtFiles.length} events.`);
+// evtFiles.forEach(file => {
+// 	const eventName = file.split('.')[0];
+// 	client.logger.log(`Loading Event: ${eventName}`);
+// 	const event = require(path.join(__dirname + `/events/${file}`));
+// 	//Bind the client to any event, before the existing arguments
+// 	client.on(eventName, event.bind(null, client));
+// });
+// client.logger.info(`Loaded a total of ${evtFiles.length} events.`);
 
 client.on('disconnect', () => client.logger.warn('Connection lost...'))
 	.on('reconnect', () => client.logger.info('Attempting to reconnect...'))

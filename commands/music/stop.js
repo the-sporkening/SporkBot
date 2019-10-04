@@ -4,6 +4,12 @@ class StopCommand extends Command {
 	constructor() {
 		super('stop', {
 			aliases: ['stop', 'end'],
+			category: 'music',
+			description: {
+				content: 'Stops the currently playing song',
+				usage: '',
+				examples: [''],
+			},
 			clientPermissions: ['SEND_MESSAGES'],
 		});
 	}

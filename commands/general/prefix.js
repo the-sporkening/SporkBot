@@ -4,11 +4,11 @@ class PrefixCommand extends Command {
 	constructor() {
 		super('prefix', {
 			aliases: ['prefix'],
-			category: 'stuff',
+			category: 'general',
 			args: [
 				{
 					id: 'prefix',
-					default: 's!',
+					default: ';',
 				},
 			],
 			channelRestriction: 'guild',

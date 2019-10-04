@@ -4,6 +4,12 @@ class SkipCommand extends Command {
 	constructor() {
 		super('skip', {
 			aliases: ['skip', 'next'],
+			category: 'music',
+			description: {
+				content: 'Skips the currently playing song',
+				usage: '',
+				examples: [''],
+			},
 			clientPermissions: ['SEND_MESSAGES'],
 		});
 	}

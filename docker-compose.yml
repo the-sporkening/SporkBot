@@ -1,0 +1,16 @@
+# This template is for source building, to get the pre-built template, see https://gist.github.com/gazmull/1d13c735c86de2598c701968afbc6bcd
+
+version: "3"
+
+services:
+  spork-client:
+    container_name: sporkbot
+    image: snipeydev/sporkbot
+    build: .
+    restart: on-failure:3
+    environment:
+      NODE_ENV: production
+    network_mode: host
+    volumes: 
+      - ./lavalink-servers.json:/home/spork-client/lavalink-servers.json
+      - ./logs:/spork-client/logs

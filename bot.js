@@ -1,10 +1,8 @@
 const path = require('path');
 const SporkClient = require(path.join(__dirname + '/client/SporkClient'));
-const pjson = require(path.join(__dirname + '/package.json'));
 require('dotenv').config();
 const client = new SporkClient({ owner: process.env.OWNERS, token: process.env.DISCORD_TOKEN });
 const Sentry = require('@sentry/node');
-const { readSync } = require('readdir');
 // const client.logger = require('./util/client.logger');
 
 // Load Logger
@@ -18,18 +16,6 @@ if (process.env.SENTRY_URL) {
 		client.logger.error(e);
 	}
 }
-
-// Event Loader
-const evtFiles = readSync(path.join(__dirname + '/events'));
-client.logger.log(`Loading a total of ${evtFiles.length} events.`);
-evtFiles.forEach(file => {
-	const eventName = file.split('.')[0];
-	client.logger.log(`Loading Event: ${eventName}`);
-	const event = require(path.join(__dirname + `/events/${file}`));
-	// Bind the client to any event, before the existing arguments
-	client.on(eventName, event.bind(null, client));
-});
-client.logger.info(`Loaded a total of ${evtFiles.length} events.`);
 
 client.on('disconnect', () => client.logger.warn('Connection lost...'))
 	.on('reconnect', () => client.logger.info('Attempting to reconnect...'))

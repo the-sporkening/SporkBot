@@ -1,5 +1,4 @@
-# TODO
-
+# The giant list of wonders
 - Create modules enable/disable
 	- Music
 	- Moderation
@@ -33,7 +32,6 @@
 		- Add reaction reports
 			- Log message id
 			- Log author
-			- 
 		- Add setting for what channel reports are posted to
 	- Add a configurable message filter
 	- Add default messages to filter

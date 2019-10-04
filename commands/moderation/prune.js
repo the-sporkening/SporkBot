@@ -5,6 +5,11 @@ class PruneCommand extends Command {
 		super('prune', {
 			aliases: ['prune'],
 			category: 'moderation',
+			description: {
+				content: 'Prunes up to 50 messages in the channel it was sent in.',
+				usage: '[number]',
+				examples: ['1-50'],
+			},
 			args: [
 				{
 					id: 'count',
@@ -26,8 +31,8 @@ class PruneCommand extends Command {
 		if (channel.type === 'dm') {
 			return message.channel.send('This command cannot be used in direct messages.');
 		}
-		if (count > 99 || !count) {
-			return message.channel.send('You either didn\'t enter a number, or you entered a number larger than 99. ' + 'Please try again.');
+		if (count > 50 || !count) {
+			return message.channel.send('You either didn\'t enter a number, or you entered a number larger than 50. ' + 'Please try again.');
 		}
 		try {
 			const messages = await message.channel.fetchMessages({ limit: count + 1 });

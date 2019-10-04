@@ -23,7 +23,8 @@ class JoinmeCommand extends Command {
 		});
 	}
 
-	async exec(message, args) {
+	// eslint-disable-next-line no-unused-vars
+	async exec(message, { members }) {
 		// TODO Check if mentioned users are connected
 		// TODO Check if mentions are less than 10
 		// TODO Move members if connected

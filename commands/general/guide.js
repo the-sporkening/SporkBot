@@ -13,10 +13,9 @@ class GuideCommand extends Command {
 	}
 
 	async exec(message) {
-		const prefix = this.handler.prefix(message);
 
 		const embed = this.client.util.embed()
-			.setColor(0xFFAC33)
+			.setColor('#FFAC33')
 			.setTitle('Guide to SporkBOT')
 			.addField('Setup', [
 				'SporkBOT requires the following permissions to be usable:',
@@ -42,7 +41,8 @@ class GuideCommand extends Command {
 		try {
 			await message.author.send({ embed });
 			if (shouldReply) message.util.reply('I\'ve sent you a DM with the guide.');
-		} catch (err) {
+		}
+		catch (err) {
 			if (shouldReply) message.util.reply('I could not send you the guide in DMs.');
 		}
 	}

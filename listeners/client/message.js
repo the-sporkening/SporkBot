@@ -9,6 +9,7 @@ class MessageListener extends Listener {
 		});
 	}
 
+	// eslint-disable-next-line no-unused-vars
 	async exec(reaction, user) {
 		// // Check if reaction is not added by the bot
 		// if (user.id === this.client.user.id) return;

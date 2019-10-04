@@ -49,7 +49,7 @@ class PlayCommand extends Command {
 			}
 			// Check if URL is playlist
 			const isPlaylist = Array.isArray(tracks) && tracks.name;
-			// Add songs to queue 
+			// Add songs to queue
 			const res = isPlaylist ? await this.client.queue.handle(node, tracks.shift(), msg) : await this.client.queue.handle(node, tracks, msg);
 			if (isPlaylist) {
 				for (const track of tracks) await this.client.queue.handle(node, track, msg);
@@ -60,6 +60,7 @@ class PlayCommand extends Command {
 		}
 		else {
 			if (!args.query) {return await msg.channel.send('What is the search term you want me to search for?');}
+			// eslint-disable-next-line no-undef
 			const tracks = await node.rest.resolve(args.slice(1).join(' '), type);
 			if (!tracks.length) {return await msg.channel.send('I didn\'t find anything in the query you gave me');}
 			const track = tracks.shift();

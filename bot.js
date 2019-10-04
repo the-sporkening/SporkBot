@@ -1,10 +1,8 @@
 const path = require('path');
 const SporkClient = require(path.join(__dirname + '/client/SporkClient'));
-const pjson = require(path.join(__dirname + '/package.json'));
 require('dotenv').config();
 const client = new SporkClient({ owner: process.env.OWNERS, token: process.env.DISCORD_TOKEN });
 const Sentry = require('@sentry/node');
-const { readSync } = require('readdir');
 // const client.logger = require('./util/client.logger');
 
 // Load Logger

@@ -4,6 +4,12 @@ class PlayCommand extends Command {
 	constructor() {
 		super('play', {
 			aliases: ['play', 'p'],
+			category: 'music',
+			description: {
+				content: 'Plays the requested song or playlist',
+				usage: '[song or url]',
+				examples: ['Old Town Road', 'youtu.be/dAS3s31'],
+			},
 			args: [
 				{
 					id: 'query',
@@ -16,7 +22,7 @@ class PlayCommand extends Command {
 	}
 
 	async exec(msg, args) {
-		// ;play <url | search term> <flags: --soundcloud>
+		// ;play <url | search term> <flags: --sc>
 
 		// Check if you are in a channel
 		if (!msg.member.voice.channelID) {

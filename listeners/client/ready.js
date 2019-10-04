@@ -1,10 +1,5 @@
 const { Listener } = require('discord-akairo');
-const LavalinkServers = [{
-	'name': 'sporkmusic',
-	'host': 'localhost',
-	'port': '2333',
-	'auth': 'youshallnotpass',
-}];
+const LavalinkServers = require('../../lavalink-servers.json');
 class ReadyListener extends Listener {
 	constructor() {
 		super('ready', {

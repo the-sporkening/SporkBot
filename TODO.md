@@ -1,4 +1,4 @@
-# TODO
+# The giant list of wonders
 - Create modules enable/disable
 	- Music
 	- Moderation

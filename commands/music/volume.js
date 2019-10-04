@@ -4,6 +4,7 @@ class VolumeCommand extends Command {
 	constructor() {
 		super('volume', {
 			aliases: ['volume', 'vol', 'v'],
+			category: 'music',
 			args: [{
 				id: 'number',
 			}],

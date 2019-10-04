@@ -1,6 +1,7 @@
 // Discord Stuff
 const { AkairoClient, CommandHandler, ListenerHandler, InhibitorHandler } = require('discord-akairo');
-// const { Collection } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+// Import the database settings
 const Database = require('../client/Database');
 // Providers
 const SettingsProvider = require('../client/providers/SettingsProvider');
@@ -65,6 +66,8 @@ class SporkClient extends AkairoClient {
 		this.settings = new SettingsProvider(Setting);
 		// Init Modules
 		this.modules = new ModulesProvider(Module);
+		// Init client embed
+		this.embed = MessageEmbed;
 		// Run setup
 		this.setup();
 	}
@@ -91,10 +94,12 @@ class SporkClient extends AkairoClient {
 		});
 		// Init Queue
 		this.queue = new Queue(this);
+
 		this.shoukaku.on('ready', (name, resumed) => this.logger.info(`Lavalink Node: ${name} is now connected. This connection is ${resumed ? 'resumed' : 'a new connection'}`))
 			.on('error', (name, error) => this.logger.error(`Lavalink Node: ${name} emitted an error.`, error))
 			.on('close', (name, code, reason) => this.logger.log(`Lavalink Node: ${name} closed with code ${code}. Reason: ${reason || 'No reason'}`))
 			.on('disconnected', (name, reason) => this.logger.warn(`Lavalink Node: ${name} disconnected. Reason: ${reason || 'No reason'}`));
+		// this.listenerHandler.on('load', (listener, reload) => reload ? this.logger.log(`Loaded ${listener.event}`) : this.logger.log(`Reloaded ${listener.event}`));
 	}
 	// Start The Bot
 	async start() {

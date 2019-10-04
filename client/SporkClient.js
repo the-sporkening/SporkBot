@@ -1,5 +1,5 @@
 // Discord Stuff
-const { AkairoClient, CommandHandler, ListenerHandler, InhibitorHandler } = require('discord-akairo');
+const { AkairoClient, CommandHandler, ListenerHandler } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
 // Import the database settings
 const Database = require('../client/Database');
@@ -59,9 +59,9 @@ class SporkClient extends AkairoClient {
 			directory: path.join(__dirname, '../listeners'),
 		});
 		// Init Inhibitor Handler
-		this.inhibitorHandler = new InhibitorHandler(this, {
-			directory: path.join(__dirname, '../inhibitors'),
-		});
+		// this.inhibitorHandler = new InhibitorHandler(this, {
+		// 	directory: path.join(__dirname, '../inhibitors'),
+		// });
 		// Init Setting
 		this.settings = new SettingsProvider(Setting);
 		// Init Modules
@@ -74,16 +74,16 @@ class SporkClient extends AkairoClient {
 
 	// Setup all our handlers/listeners/inhibitors
 	setup() {
-		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
+		// this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.commandHandler.useListenerHandler(this.listenerHandler);
 		this.listenerHandler.setEmitters({
 			commandHandler: this.commandHandler,
-			inhibitorHandler: this.inhibitorHandler,
+			// inhibitorHandler: this.inhibitorHandler,
 			listenerHandler: this.listenerHandler,
 		});
 		// Load all handlers
 		this.commandHandler.loadAll();
-		this.inhibitorHandler.loadAll();
+		// this.inhibitorHandler.loadAll();
 		this.listenerHandler.loadAll();
 		// Init Lavalink wrapper
 		this.shoukaku = new Shoukaku(this, {
